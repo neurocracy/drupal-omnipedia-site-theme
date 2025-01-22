@@ -55,6 +55,8 @@ AmbientImpact.addComponent(
    */
   const pageTransitionHandledClass = 'refreshless--page-transition-handled';
 
+  const rootActiveClass = 'refreshless--page-transition-active';
+
   /**
    * The maximum amount of time in milliseconds the transition may take.
    *
@@ -179,6 +181,8 @@ AmbientImpact.addComponent(
 
             this.#$overlay.removeClass(overlayActiveClass);
 
+            this.#$root.removeClass(rootActiveClass);
+
           });
 
           console.warn('Omnipedia transition failsafe triggered.');
@@ -217,7 +221,11 @@ AmbientImpact.addComponent(
         await new Promise(requestAnimationFrame);
 
         await fastdom.mutate(() => {
+
           this.#$overlay.addClass(overlayActiveClass);
+
+          this.#$root.addClass(rootActiveClass);
+
         });
 
       });
@@ -249,6 +257,8 @@ AmbientImpact.addComponent(
       await fastdom.mutate(() => {
 
         this.#$overlay.removeClass(overlayActiveClass);
+
+        this.#$root.removeClass(rootActiveClass);
 
       });
 

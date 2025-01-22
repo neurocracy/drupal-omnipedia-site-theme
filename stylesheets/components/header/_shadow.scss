@@ -30,6 +30,13 @@ header[role='banner'],
     transition-timing-function: linear;
   }
 
+  // :root.refreshless--page-transition-active &::after,
+  // :root.refreshless--page-transition-active &.headroom--top::after {
+  //   // @include layout-sidebars.on-sidebar-beside-content(both) {
+  //     visibility: hidden !important;
+  //   // }
+  // }
+
   &.headroom--top,
   &.headroom--unpinned {
     &::after {
