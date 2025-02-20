@@ -53,14 +53,14 @@ AmbientImpact.addComponent(
     },
     function(context, settings, trigger) {
 
-        $(document.documentElement).off([
-          `refreshless:progress-bar-active.${eventNamespace}`,
-          `refreshless:progress-bar-inactive.${eventNamespace}`,
-        ].join(' '));
+      $(document.documentElement).off([
+        `refreshless:progress-bar-active.${eventNamespace}`,
+        `refreshless:progress-bar-inactive.${eventNamespace}`,
+      ].join(' '));
 
-        const headroom = $(this, context).find(headerSelector).prop('headroom');
+      const headroom = $(this, context).find(headerSelector).prop('headroom');
 
-        headroom.unfreeze();
+      headroom.unfreeze();
 
     },
   );
