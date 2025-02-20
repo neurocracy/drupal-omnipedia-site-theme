@@ -64,7 +64,11 @@ AmbientImpact.addComponent(
 
       const headroom = $(this, context).find(headerSelector).prop('headroom');
 
-      headroom.unfreeze();
+      // If the header headroom has already been detached and destroyed, this
+      // will be undefined and trying to call it will result in an error.
+      if (typeof headroom === 'object') {
+        headroom.unfreeze();
+      }
 
     },
   );
