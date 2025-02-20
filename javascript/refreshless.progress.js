@@ -53,6 +53,10 @@ AmbientImpact.addComponent(
     },
     function(context, settings, trigger) {
 
+      if (trigger !== 'unload') {
+        return;
+      }
+
       $(document.documentElement).off([
         `refreshless:progress-bar-active.${eventNamespace}`,
         `refreshless:progress-bar-inactive.${eventNamespace}`,
