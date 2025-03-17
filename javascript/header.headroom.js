@@ -64,16 +64,35 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
       // when focus is inside one of them.
       $elements
       .on('headroomPin.' + eventNamespace, function(event) {
+
         for (let i = 0; i < $elements.length; i++) {
-          $elements[i].headroom.pin();
+
+          const currentHeadroom = $elements.eq(i).prop('headroom');
+
+          // Use Headroom's method that abstracts whatever classes are
+          // configured so we don't have to fetch those ourselves. This is
+          // necessary to ensure we don't trigger the event unnecessarily and/or
+          // recursively because neither the component nor Headroom actually
+          if (currentHeadroom.hasClass('pinned')) {
+            continue;
+          }
+
+          currentHeadroom.pin();
+
         }
+
       })
       .on('headroomFreeze.' + eventNamespace, function(event) {
+        // The Headroom component will not apply freeze and will not trigger the
+        // event if the element is already frozen so no checks are needed here.
         for (let i = 0; i < $elements.length; i++) {
           $elements[i].headroom.freeze();
         }
       })
       .on('headroomUnfreeze.' + eventNamespace, function(event) {
+        // The Headroom component will not unfreeze and will not trigger the
+        // event if the element is already unfrozen so no checks are needed
+        // here.
         for (let i = 0; i < $elements.length; i++) {
           $elements[i].headroom.unfreeze();
         }
