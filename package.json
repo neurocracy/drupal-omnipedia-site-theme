@@ -1,7 +1,7 @@
 {
   "name": "drupal-omnipedia-site-theme",
   "version": "8.0.0",
-  "license": "GPL-2.0-or-later",
+  "license": "GPL-3.0-or-later",
   "repository": "https://gitlab.com/neurocracy/omnipedia/omnipedia-theme",
   "scripts": {
     "build": "webpack --progress --config webpack.config.mjs",
