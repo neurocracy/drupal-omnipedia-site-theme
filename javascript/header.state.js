@@ -159,7 +159,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderState', function(
       // Click handler to close the search if compact and open as a partial
       // band-aid for:
       //
-      // @see https://github.com/neurocracy/drupal-omnipedia-site-theme/issues/22
+      // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/22
       .on(`click.${eventNamespace}`, function(event) {
 
         if (

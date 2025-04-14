@@ -118,7 +118,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderFocus', function(
 
           // Hide is commented out as it currently causes search to not work:
           //
-          // @see https://github.com/neurocracy/drupal-omnipedia-site-theme/issues/22
+          // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/22
           //
           // @todo Refactor and fix this.
 

@@ -248,7 +248,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
       // @todo Reinstate this if/when :target evaluation changes are implemented
       //   in some way or browsers start to expose an API to do this.
       //
-      // @see https://github.com/neurocracy/drupal-omnipedia-site-theme/issues/19
+      // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/19
       return fastdom.mutate(function() {
 
         // that.#$sidebars.removeClass(sidebarsOpenClass);

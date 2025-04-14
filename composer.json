@@ -4,8 +4,8 @@
   "type": "drupal-custom-theme",
   "license": "GPL-2.0-or-later",
   "support": {
-    "docs": "https://github.com/neurocracy/drupal-omnipedia-site-theme",
-    "source": "https://github.com/neurocracy/drupal-omnipedia-site-theme"
+    "docs": "https://gitlab.com/neurocracy/omnipedia/omnipedia-theme",
+    "source": "https://gitlab.com/neurocracy/omnipedia/omnipedia-theme"
   },
   "authors": [
     {

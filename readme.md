@@ -22,7 +22,7 @@ described in the installation instructions for these dependencies:
 
 * The [`ambientimpact_core`](https://github.com/Ambient-Impact/drupal-ambientimpact-core), [`ambientimpact_icon`](https://github.com/Ambient-Impact/drupal-ambientimpact-icon), and [`ambientimpact_ux`](https://github.com/Ambient-Impact/drupal-ambientimpact-ux) modules.
 
-* The [`omnipedia_block`](https://github.com/neurocracy/drupal-omnipedia-block), [`omnipedia_content`](https://github.com/neurocracy/drupal-omnipedia-content), [`omnipedia_main_page`](https://github.com/neurocracy/drupal-omnipedia-main-page), and [`omnipedia_media`](https://github.com/neurocracy/drupal-omnipedia-media) modules.
+* The [`omnipedia_block`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-block), [`omnipedia_content`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-content), [`omnipedia_main_page`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-main-page), and [`omnipedia_media`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-media) modules.
 
 ## Front-end dependencies
 
@@ -50,9 +50,10 @@ should get you up and running.
 In your root `composer.json`, add the following to the `"repositories"` section:
 
 ```json
-"drupal/omnipedia_site_theme": {
+{
   "type": "vcs",
-  "url": "https://github.com/neurocracy/drupal-omnipedia-site-theme.git"
+  "url": "https://gitlab.com/neurocracy/omnipedia/omnipedia-theme.git",
+  "only": ["drupal/omnipedia_site_theme"]
 }
 ```
 
@@ -132,7 +133,7 @@ The following major version bumps indicate breaking changes:
 
   * Requires [`drupal/ambientimpact_core` 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-core/tree/2.x) for Drupal 10 support.
 
-  * Requires [`drupal/omnipedia_content` 6.x](https://github.com/neurocracy/drupal-omnipedia-content/tree/6.x) and [`drupal/omnipedia_media` 6.x](https://github.com/neurocracy/drupal-omnipedia-media/tree/6.x) for Drupal 10 support.
+  * Requires [`drupal/omnipedia_content` 6.x](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-content/tree/6.x) and [`drupal/omnipedia_media` 6.x](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-media/tree/6.x) for Drupal 10 support.
 
   * Increases minimum version of `symfony/css-selector` and `symfony/dom-crawler` to ^6.2 as that's what's supported by Drupal 10.
 
@@ -146,7 +147,7 @@ The following major version bumps indicate breaking changes:
 
   * Increased [`drupal/ambientimpact_ux` to 2.x](https://github.com/Ambient-Impact/drupal-ambientimpact-ux/tree/2.x) from 1.x.
 
-  * Increased [`omnipedia_content` to 7.x](https://github.com/neurocracy/drupal-omnipedia-content/tree/7.x) from 6.x.
+  * Increased [`omnipedia_content` to 7.x](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-content/tree/7.x) from 6.x.
 
   * Updated various stylesheets and JavaScript necessary for compatibility for the above.
 
