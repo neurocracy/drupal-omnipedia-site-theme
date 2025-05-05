@@ -4,7 +4,7 @@
 
 AmbientImpact.addComponent(
   'OmnipediaSiteThemeRefreshLessProgress',
-(component, $) => {
+function(component, $) {
 
   'use strict';
 

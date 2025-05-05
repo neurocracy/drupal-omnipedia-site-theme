@@ -2,7 +2,7 @@
 //   Omnipedia - Site theme - RefreshLess page transition
 // -----------------------------------------------------------------------------
 
-AmbientImpact.on(['fastdom'], (aiFastDom) => {
+AmbientImpact.on(['fastdom'], function(aiFastDom) {
 AmbientImpact.addComponent(
   'OmnipediaSiteThemeRefreshLessPageTransition',
 (component, $) => {
