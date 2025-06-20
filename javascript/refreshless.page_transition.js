@@ -136,6 +136,7 @@ AmbientImpact.addComponent(
       this.#$root.off([
         `refreshless:before-render.${eventNamespace}`,
         `refreshless:load.${eventNamespace}`,
+        `refreshless:render.${eventNamespace}`,
       ].join(' '));
 
     }
@@ -146,6 +147,17 @@ AmbientImpact.addComponent(
      * @param {jQuery.Event} event
      */
     async #beforeRenderHandler(event) {
+
+      const isPreview = event.detail.isPreview ?? false;
+
+      const previousPreview = event.detail.previousPreview ?? false;
+
+      // If this is a fresh page that replaced a cached preview, do nothing
+      // because the page will have already been transitioned in when the
+      // preview was rendered.
+      if (isPreview === false && previousPreview === true) {
+        return;
+      }
 
       /**
        * Flag indicating whether the delay has been resolved.
@@ -222,19 +234,27 @@ AmbientImpact.addComponent(
 
       });
 
+      // If this is a cached preview being rendered, we want to reveal the page
+      // much sooner than the load event for the preview to be of any use.
+      if (isPreview === true) {
+
+        this.#$root.one(`refreshless:render.${eventNamespace}`, async (
+          event,
+        ) => {
+          await this.#loadHandler(event);
+        });
+
+        return;
+
+      }
+
       // Attach a one-off load handler here rather than on attach as it can
       // sometimes not trigger if set there. This tries to remove the overlay
       // as late as possible to avoid any visible jank or layout jumps for a
       // frame or two, which can still occasionally happen when loading some
       // of the longer pages.
       this.#$root.one(`refreshless:load.${eventNamespace}`, async (event) => {
-
-        // Let any rendering/layout/etc. settle for a frame before proceeding.
-        await new Promise(requestAnimationFrame);
-        await new Promise(requestAnimationFrame);
-
-        this.#loadHandler(event);
-
+        await this.#loadHandler(event);
       });
 
     }
@@ -245,6 +265,10 @@ AmbientImpact.addComponent(
      * @param {jQuery.Event} event
      */
     async #loadHandler(event) {
+
+      // Let any rendering/layout/etc. settle for a frame before proceeding.
+      await new Promise(requestAnimationFrame);
+      await new Promise(requestAnimationFrame);
 
       await fastdom.mutate(() => {
 
