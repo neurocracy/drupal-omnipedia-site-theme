@@ -334,7 +334,7 @@ function(euCookieCompliance, $) {
        */
       const that = this;
 
-      $(this).prop('PrivacyPopup').destroy().then(function() {
+      $(this).prop('PrivacyPopup')?.destroy().then(function() {
 
         $(that).removeProp('PrivacyPopup');
 

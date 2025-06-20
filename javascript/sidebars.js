@@ -541,7 +541,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
        */
       const that = this;
 
-      $(this).prop('OmnipediaSidebars').destroy().then(function() {
+      $(this).prop('OmnipediaSidebars')?.destroy().then(function() {
 
         $(that).removeProp('OmnipediaSidebars');
 
