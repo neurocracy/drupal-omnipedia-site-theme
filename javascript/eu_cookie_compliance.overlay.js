@@ -181,6 +181,11 @@ function(
 
       });
 
+      // Don't cache the overlay in RefreshLess' cache.
+      $('html').on(`refreshless:before-cache.${eventNamespace}`, (event) => {
+        this.#$overlay.attr('data-refreshless-temporary', true);
+      });
+
     }
 
     /**

@@ -270,6 +270,16 @@ function(euCookieCompliance, $) {
 
       });
 
+      // Don't cache the pop-up in RefreshLess' cache.
+      //
+      // @todo This means the pop-up is completely absent when showing a cached
+      //  snapshot. Revisit this to fix that or wait until we completely
+      //  replace the EU Cookie Compliance spaghetti code with a different
+      //  implementation.
+      $('html').on(`refreshless:before-cache.${eventNamespace}`, (event) => {
+        this.#$popup.attr('data-refreshless-temporary', true);
+      });
+
     }
 
     /**
@@ -284,6 +294,8 @@ function(euCookieCompliance, $) {
         `eu_cookie_compliance_popup_close.${eventNamespace}`,
         `click.${eventNamespace}`,
       ].join(' '));
+
+      $('html').off(`refreshless:before-cache.${eventNamespace}`);
 
     }
 
