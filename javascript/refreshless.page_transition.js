@@ -169,8 +169,8 @@ AmbientImpact.addComponent(
        */
       let resolved = false;
 
-      // Cancel any existing transition in handler.
-      this.#$overlay.off(`transitionend.${eventNamespace}-in`);
+      // Cancel any existing transition out handler.
+      this.#$overlay.off(`transitionend.${eventNamespace}-out`);
 
       await event.detail.delay(async (resolve, reject) => {
 
