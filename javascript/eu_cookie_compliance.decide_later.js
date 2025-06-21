@@ -62,6 +62,10 @@ function(
     },
     function(context, settings, trigger) {
 
+      if (trigger !== 'unload') {
+        return;
+      }
+
       // Remove just the constructed event as the destroyed event needs to run
       // and will be invoked and then removed as it's a one-off event.
       $(this).off(`PrivacyPopupConstructed.${eventNamespace}`);

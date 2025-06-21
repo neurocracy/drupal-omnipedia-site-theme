@@ -337,16 +337,13 @@ function(euCookieCompliance, $) {
     },
     function(context, settings, trigger) {
 
-      /**
-       * Reference to the HTML element being detached from.
-       *
-       * @type {HTMLElement}
-       */
-      const that = this;
+      if (trigger !== 'unload') {
+        return;
+      }
 
-      $(this).prop('PrivacyPopup')?.destroy().then(function() {
+      $(this).prop('PrivacyPopup')?.destroy().then(() => {
 
-        $(that).removeProp('PrivacyPopup');
+        $(this).removeProp('PrivacyPopup');
 
       });
 
