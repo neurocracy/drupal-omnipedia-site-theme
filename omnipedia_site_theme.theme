@@ -306,6 +306,17 @@ function omnipedia_site_theme_preprocess_media(array &$variables): void {
 }
 
 /**
+ * Prepares variables for node templates.
+ *
+ * Opt nodes into RefreshLess lazy link preloading.
+ */
+function omnipedia_site_theme_preprocess_node(array &$variables): void {
+
+  $variables['attributes']['data-refreshless-lazy-preload'] = true;
+
+}
+
+/**
  * Prepares variables for the omnipedia-header.html.twig template.
  *
  * This adds a 'button-placeholder' class to the 'menu_link' element.
