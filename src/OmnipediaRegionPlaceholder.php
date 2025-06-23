@@ -175,8 +175,8 @@ class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
     // Render the inline template into an object implementing
     // \Drupal\Component\Render\MarkupInterface. Note that since we started with
     // an already rendered string of HTML, this shouldn't result in new
-    // attachments or cache metadata so we just render as plain.
-    $variables['elements']['#children'] = $this->renderer->renderPlain(
+    // attachments or cache metadata so we just render in isolation.
+    $variables['elements']['#children'] = $this->renderer->renderInIsolation(
       $contentRenderArray,
     );
 
