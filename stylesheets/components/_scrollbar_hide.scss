@@ -331,8 +331,6 @@ $extra-space: 1px;
 
   height: var(--scrollbar-hide-fade-distance);
 
-  pointer-events: none;
-
   transition-duration:        var(--scrollbar-hide-transition-duration);
   transition-timing-function: var(--scrollbar-hide-easing-hiding);
   transition-property:        transform;
