@@ -12,7 +12,6 @@ use Drupal\omnipedia_site_theme\PageRegionPlaceholdersPreprocess;
 use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
 use Drupal\omnipedia_site_theme\SiteBrandingInliner;
 use Drupal\omnipedia_site_theme\SiteBrandingMainPageLinks;
-use function in_array;
 
 /**
  * Implements \hook_theme().
@@ -314,7 +313,7 @@ function omnipedia_site_theme_preprocess_media(array &$variables): void {
  */
 function omnipedia_site_theme_preprocess_menu(array &$variables): void {
 
-  if (in_array($variables['menu_name'], ['main', 'footer']) === false) {
+  if (\in_array($variables['menu_name'], ['main', 'footer']) === false) {
     return;
   }
 
