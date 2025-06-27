@@ -36,6 +36,7 @@ AmbientImpact.addComponent(
     '.overlay--eu-cookie-compliance-popup',
     '.pswp',
     '.to-top',
+    '[data-tippy-root]',
   ];
 
   $(once(
