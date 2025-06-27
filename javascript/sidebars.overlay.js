@@ -107,6 +107,13 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebarsOverlay', function(
 
       fastdom.mutate(function() {
 
+        // Remove any existing overlay that may have been saved by RefreshLess
+        // in cache before inserting the current one. This is preferable to
+        // removing the overlay during 'refreshless:before-cache' or adding the
+        // 'data-refreshless-temporary' attribute to the overlay, because those
+        // can result in the overlay being removed prematurely.
+        that.#sidebars.$menuClosedTarget.prevAll(`.${overlayClass}`).remove();
+
         that.#sidebars.$menuClosedTarget
         .before(that.#$overlay)
         .addClass(hasOverlayClass);

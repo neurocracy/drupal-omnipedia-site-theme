@@ -34,7 +34,6 @@ AmbientImpact.addComponent(
     '.eu-cookie-compliance-popup',
     '.offcanvas-overlay',
     '.overlay--eu-cookie-compliance-popup',
-    '.overlay--layout-sidebars',
     '.pswp',
     '.to-top',
   ];
