@@ -38,10 +38,23 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
     '.search-anchor',
   ].join(',');
 
+  // We want this to be detached on leaving a page and before rendering a
+  // cached snapshot, but critically we should not detach
+  // on 'refreshless:before-cache' because that will cause the header to pop
+  // in to view before the page has transitioned out.
+  //
+  // @todo Fix delaying caching not working in RefreshLess and remove this?
+  const triggers = AmbientImpact.defaults.detachTriggers.filter(
+    (trigger) => trigger !== 'refreshless:before-cache',
+  );
+
+  triggers.push('refreshless:cached-snapshot');
+
   this.addBehaviour(
     'OmnipediaSiteThemeHeaderHeadroom',
     'omnipedia-site-theme-header-headroom',
     headerElements.getHeaderBehaviourSelector(),
+    triggers,
     function(context, settings) {
 
       /**
