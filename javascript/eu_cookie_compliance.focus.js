@@ -209,10 +209,6 @@ function(
     },
     function(context, settings, trigger) {
 
-      if (trigger !== 'unload') {
-        return;
-      }
-
       // PrivacyPopupFocus destroys itself on the PrivacyPopupDestroyed event so
       // we just need to remove the property and let browser garbage collection
       // handle the rest.

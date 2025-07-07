@@ -337,10 +337,6 @@ function(euCookieCompliance, $) {
     },
     function(context, settings, trigger) {
 
-      if (trigger !== 'unload') {
-        return;
-      }
-
       $(this).prop('PrivacyPopup')?.destroy().then(() => {
 
         $(this).removeProp('PrivacyPopup');
