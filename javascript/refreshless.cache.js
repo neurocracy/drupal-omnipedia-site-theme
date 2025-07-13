@@ -25,18 +25,13 @@ AmbientImpact.addComponent(
    *
    * @type {Array}
    *
-   * @todo Maybe RefreshLess should run a detach before caching after all?
+   * @todo Remove when we can detach reliably before cache when using FastDom
+   *   as it currently results in the detach sometimes running after the cached
+   *   snapshot is saved.
    */
   const selectors = [
-    '#overlay-scroll-scrollbar-measure',
-    '.content-popup-offcanvas',
-    '.content-popup-offcanvas-button',
     '.eu-cookie-compliance-popup',
-    '.offcanvas-overlay',
     '.overlay--eu-cookie-compliance-popup',
-    '.pswp',
-    '.to-top',
-    '[data-tippy-root]',
   ];
 
   $(once(
