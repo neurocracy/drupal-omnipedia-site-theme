@@ -128,7 +128,7 @@ class MaintenancePage implements ContainerInjectionInterface {
     $siteName = $this->configFactory->get('system.site')->get('name');
 
     // @todo Make configurable.
-    $variables['title'] = 'Neurocracy 2.049';
+    $variables['title'] = 'Neurocracy 3.0';
 
     $this->alterBranding($variables);
 
