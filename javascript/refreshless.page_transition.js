@@ -540,6 +540,9 @@ AmbientImpact.addComponent(
 
     }
 
+    /**
+     * Finishing hiding.
+     */
     #endTransitionOut() {
 
       if (this.#sequence.isHiding() !== true) {
