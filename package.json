@@ -45,7 +45,7 @@
     "@egjs/hammerjs": "^2.0.17",
     "@fontsource/exo-2": "^4.5.10",
     "drupal-ambientimpact-base": "workspace:^7",
-    "drupal-ambientimpact-core": "workspace:^2",
+    "drupal-ambientimpact-core": "workspace:^2 || ^3",
     "drupal-ambientimpact-icon": "workspace:^1",
     "drupal-ambientimpact-ux": "workspace:^2",
     "drupal-omnipedia-block": "workspace:^5 || ^6",

@@ -18,7 +18,7 @@
     "php": "^8.1",
     "drupal/core": "^10.3 || ^11.0",
     "drupal/ambientimpact_base": "^7.0@dev",
-    "drupal/ambientimpact_core": "^2.0@dev",
+    "drupal/ambientimpact_core": "^2.0@dev || ^3.0@dev",
     "drupal/ambientimpact_icon": "^1.0@dev",
     "drupal/ambientimpact_ux": "^2.0@dev",
     "drupal/omnipedia_block": "^5.0@dev || ^6.0@dev",
