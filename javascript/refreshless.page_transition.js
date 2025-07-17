@@ -67,6 +67,16 @@ AmbientImpact.addComponent(
   const failsafeTimeout = 500;
 
   /**
+   * Name of the root element attribute that we write the current state to.
+   *
+   * This is primarily intended for styling and is only one way; changing it
+   * doesn't affect the behaviour of the overlay itself.
+   *
+   * @type {String}
+   */
+  const transitionStateAttrName = 'data-refreshless-page-transition-state';
+
+  /**
    * Represents a RefreshLess page transition sequence.
    */
   class TransitionSequence {
@@ -313,6 +323,8 @@ AmbientImpact.addComponent(
 
       this.#sequence = new TransitionSequence();
 
+      this.#updateRootAttribute();
+
     }
 
     /**
@@ -326,8 +338,13 @@ AmbientImpact.addComponent(
       this.#unbindEventHandlers();
 
       return fastdom.mutate(() => {
+
         this.#$overlay.remove();
-        this.#$root.removeClass(pageTransitionHandledClass);
+
+        this.#$root
+        .removeClass(pageTransitionHandledClass)
+        .removeAttr(transitionStateAttrName);
+
       });
 
     }
@@ -365,6 +382,22 @@ AmbientImpact.addComponent(
     #unbindEventHandlers() {
 
       this.#$root.add(this.#$overlay).off(`.${eventNamespace}`);
+
+    }
+
+    /**
+     * Update the root attribute with the current state.
+     *
+     * @return {Promise}
+     *   A Promise that resolves when the DOM changes are complete.
+     */
+    async #updateRootAttribute() {
+
+      await fastdom.mutate(() => {
+
+        this.#$root.attr(transitionStateAttrName, this.#sequence.current);
+
+      });
 
     }
 
@@ -505,12 +538,14 @@ AmbientImpact.addComponent(
 
       this.#sequence.advance().assertCurrent('revealing');
 
+      await this.#updateRootAttribute();
+
     }
 
     /**
      * Finish revealing in if currently in the process of revealing.
      */
-    #endTransitionIn() {
+    async #endTransitionIn() {
 
       if (this.#sequence.isRevealing() !== true) {
         return;
@@ -519,6 +554,8 @@ AmbientImpact.addComponent(
       console.debug('🌐 Page visible!');
 
       this.#sequence.advance().assertCurrent('revealed');
+
+      await this.#updateRootAttribute();
 
     }
 
@@ -543,12 +580,14 @@ AmbientImpact.addComponent(
 
       this.#sequence.restart().advance().assertCurrent('hiding');
 
+      await this.#updateRootAttribute();
+
     }
 
     /**
      * Finishing hiding.
      */
-    #endTransitionOut() {
+    async #endTransitionOut() {
 
       if (this.#sequence.isHiding() !== true) {
         return;
@@ -557,6 +596,8 @@ AmbientImpact.addComponent(
       console.debug('🌐 Page hidden!');
 
       this.#sequence.advance().assertCurrent('hidden');
+
+      await this.#updateRootAttribute();
 
       if (typeof this.#resolveTransitionOut !== 'function') {
         return;
