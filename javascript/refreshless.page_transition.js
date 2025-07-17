@@ -369,7 +369,7 @@ AmbientImpact.addComponent(
     }
 
     /**
-     * RefreshLess before render event handler.
+     * 'refreshless:before-render' event handler.
      *
      * @param {jQuery.Event} event
      */
@@ -429,6 +429,11 @@ AmbientImpact.addComponent(
 
     }
 
+    /**
+     * 'refreshless:render' event handler.
+     *
+     * @param {jQuery.Event} event
+     */
     async #renderHandler(event) {
 
       if (event.detail.isPreview === false) {
@@ -440,7 +445,7 @@ AmbientImpact.addComponent(
     }
 
     /**
-     * Turbo load handler; removes overlay active class.
+     * 'refreshless:load' event handler.
      *
      * @param {jQuery.Event} event
      */
@@ -455,7 +460,7 @@ AmbientImpact.addComponent(
     }
 
     /**
-     * Overlay transitionend event handler.
+     * Overlay 'transitionend' event handler.
      *
      * @param {jQuery.Event} event
      */
