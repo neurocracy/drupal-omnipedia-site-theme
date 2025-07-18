@@ -54,6 +54,26 @@ AmbientImpact.addComponent('OmnipediaSiteThemeTooltipTitleAttribute', function(
     '.layout-container',
     function(context, settings) {
 
+      // Restore any title attributes that were left as data attributes as can
+      // occur when restoring from RefreshLess' cache.
+      //
+      // @todo Remove when we can reliably detach before caching.
+      $(this).find(
+        `[data-original-title]:not(${attachedDataLinkSelector})`,
+      ).each(async (i, element) => {
+
+        const $this = $(element);
+
+        await fastdom.mutate(() => {
+
+          $this.attr('title', $this.attr('data-original-title')).removeAttr(
+            'data-original-title',
+          );
+
+        });
+
+      });
+
       $(this).prop(
         propertyName,
         new aiTooltip.Tooltips(this, {
