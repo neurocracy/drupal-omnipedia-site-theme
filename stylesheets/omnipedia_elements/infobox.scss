@@ -24,4 +24,10 @@
       $background: colours.$secondary-content-background-dark
     );
   }
+
+  &__info-item-value {
+    // Override base theme definition list styles.
+    padding-inline-start: 0;
+  }
+
 }
