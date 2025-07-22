@@ -260,6 +260,7 @@ tooltip:
     - ambientimpact_core/framework
     - ambientimpact_ux/component.tooltip.events
     - omnipedia_site_theme/tooltip.config
+    - core/once
 
 tooltip.config:
   js:
