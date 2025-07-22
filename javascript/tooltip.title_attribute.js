@@ -140,7 +140,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeTooltipTitleAttribute', function(
 
           });
 
-        })
+        });
 
         $(this).prop(
           propertyName,
@@ -155,6 +155,7 @@ AmbientImpact.addComponent('OmnipediaSiteThemeTooltipTitleAttribute', function(
       })
       .on(`closeOffcanvas.${eventNamespace}`, function(event) {
 
+        // @todo Transition out gracefully and destroy only after that's done.
         $(this).prop(propertyName)?.destroy();
         $(this).removeProp(propertyName);
 
