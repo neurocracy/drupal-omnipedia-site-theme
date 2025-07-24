@@ -83,11 +83,21 @@ AmbientImpact.addComponent('OmnipediaSiteThemeTooltipTitleAttribute', function(
   );
 
   // Restore any title attributes that were left as data attributes as can occur
-  // when restoring from RefreshLess' cache.
+  // when restoring from RefreshLess' cache. Note that we're using the
+  // before-render event so that we can manipulate the DOM of the new <body>
+  // before there's even a chance it'll be rendered, potentially showing cached
+  // tooltips. This avoids having them instantly disappear if we were to add
+  // data-refreshless-temporary to them, instead fading out gracefully.
   $(once(
     'tooltip-refreshless-cache-restore',
     'html',
   )).on(`refreshless:before-render.${eventNamespace}`, async (event) => {
+
+    // Don't attempt to to do anything if this is not a cached snapshot being
+    // rendered.
+    if (event.detail.isCachedSnapshot === false) {
+      return;
+    }
 
     const context = event.detail.newBody;
 
