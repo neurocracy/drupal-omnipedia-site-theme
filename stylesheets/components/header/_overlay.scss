@@ -44,3 +44,8 @@ main[role="main"]:not(.header-has-overlay)::before {
 
   will-change: opacity;
 }
+
+main[role="main"]:not(.header-has-overlay)::before,
+.overlay--header {
+  z-index: var(--header-overlay-z-index);
+}

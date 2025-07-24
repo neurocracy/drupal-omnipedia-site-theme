@@ -75,7 +75,14 @@
       left: var(--drupal-displace-offset-left, 0);
     }
 
+    z-index: var(--sidebars-compact-z-index);
+
     min-width: 13em;
+
+    &__closed-target,
+    &__closed-anchor {
+      z-index: var(--sidebars-compact-closed-elements-z-index);
+    }
 
     &__wrapper {
       height: 100%;

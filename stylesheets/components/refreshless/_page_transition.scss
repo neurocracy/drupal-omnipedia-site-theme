@@ -16,13 +16,6 @@
   ///
   --refreshless-page-transition-out-duration: 0.3s;
 
-  ///
-  /// RefreshLess page transition overlay z-index.
-  ///
-  /// @todo This is ugly and should be fixed as part of a z-index manager
-  ///   refactor.
-  --refreshless-page-transition-overlay-z-index: #{z-index.get(modal) + 5};
-
 }
 
 .refreshless-page-transition-overlay {

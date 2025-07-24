@@ -64,6 +64,15 @@ header[role='banner'] {
 }
 
 header[role='banner'],
+.region-primary-menu {
+  z-index: var(--header-z-index);
+}
+
+.search-anchor {
+  z-index: var(--search-anchor-z-index);
+}
+
+header[role='banner'],
 .region-primary-menu,
 .search-anchor {
   position: sticky;

@@ -1,0 +1,76 @@
+// -----------------------------------------------------------------------------
+//   Site layout - Global z-index custom properties
+// -----------------------------------------------------------------------------
+
+@use 'sass/helpers/z-index';
+
+// Note that while the order they're declared here doesn't matter, these are
+// sorted from highest to lowest for clarity.
+:root {
+
+  ///
+  /// RefreshLess page transition overlay z-index.
+  ///
+  /// @todo This is ugly and should be fixed as part of a z-index manager
+  ///   refactor.
+  ///
+  --refreshless-page-transition-overlay-z-index: #{z-index.get(modal) + 5};
+
+  ///
+  /// Tooltip z-index.
+  ///
+  /// @todo This is ugly and should be fixed as part of a z-index manager
+  ///   refactor.
+  ///
+  --tooltip-z-index: #{z-index.get(modal) + 4};
+
+  ///
+  /// Sidebars in compact mode z-index.
+  ///
+  /// @todo This is ugly and should be fixed as part of a z-index manager
+  ///   refactor.
+  ///
+  --sidebars-compact-z-index: #{z-index.get(modal) + 1};
+
+  ///
+  /// Sidebar closed element z-index in compact mode.
+  ///
+  --sidebars-compact-closed-elements-z-index: #{z-index.get(modal)};
+
+  ///
+  /// JavaScript-powered overlay z-index.
+  ///
+  --overlay-z-index: #{z-index.get(floating-above)};
+
+  ///
+  /// Floating search anchor z-index.
+  ///
+  /// This is primarily used to change the URL :target to allow revealing the
+  /// search form in compact mode if JavaScript hasn't enhanced it.
+  ///
+  --search-anchor-z-index: #{z-index.get(floating-above)};
+
+  ///
+  /// Site reveal animation overlay.
+  ///
+  --site-reveal-overlay-z-index: #{z-index.get(floating-above)};
+
+  ///
+  /// The skip to main content link z-index.
+  ///
+  --skip-link-z-index: #{z-index.get(floating-above)};
+
+  ///
+  /// Header elements z-index.
+  ///
+  /// In compact mode, this is both the <header> element and the primary menu
+  /// region. Outside of compact mode, this is only the primary menu region.
+  ///
+  --header-z-index: #{z-index.get(floating)};
+
+  ///
+  /// Header overlay z-index, both CSS-only and when enhanced by JavaScript.
+  ///
+  --header-overlay-z-index: #{z-index.get(floating-below)};
+
+}

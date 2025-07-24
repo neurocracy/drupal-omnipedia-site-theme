@@ -51,6 +51,8 @@ $site-reveal-overlay-animation-delay: 0.3s;
     bottom:   0;
     left:     50%;
 
+    z-index: var(--site-reveal-overlay-z-index);
+
     margin-left:  -50vw;
 
     width:    100vw;

@@ -7,6 +7,10 @@
 
 // This centralizes overlay styles used by several components.
 
+.overlay {
+  z-index: var(--overlay-z-index);
+}
+
 // JavaScript-powered overlays.
 .overlay,
 // The header overlay in compact mode, i.e. narrow screens if the JavaScript

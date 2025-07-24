@@ -59,6 +59,7 @@ libraries-override:
 libraries-extend:
 
   ambientimpact_base/tooltip:
+    - omnipedia_site_theme/layout_z-index_properties
     - omnipedia_site_theme/tooltip
 
   ambientimpact_base/tooltip_config:

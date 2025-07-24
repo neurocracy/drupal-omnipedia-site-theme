@@ -5,6 +5,7 @@ global-styling:
       stylesheets/global/scrollbar.css: {}
   dependencies:
     - ambientimpact_ux/component.material.ripple
+    - omnipedia_site_theme/layout_z-index_properties
     - omnipedia_site_theme/table
 
 changes:
@@ -110,6 +111,11 @@ js-cookie:
   js:
     vendor/js-cookie/dist/js.cookie.min.js: { minified: true }
 
+layout_z-index_properties:
+  css:
+    theme:
+      stylesheets/layout/z-index_properties.css: {}
+
 maintenance_page:
   css:
     theme:
@@ -199,6 +205,7 @@ refreshless:
     - ambientimpact_core/component.fastdom
     - ambientimpact_core/framework
     - core/once
+    - omnipedia_site_theme/layout_z-index_properties
 
 refreshless_ajax:
   js:
