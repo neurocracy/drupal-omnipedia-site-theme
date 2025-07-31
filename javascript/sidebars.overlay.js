@@ -257,6 +257,34 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebarsOverlay', function(
 
   }
 
+  // Remove any cached overlay when restoring a preview so that we don't have an
+  // inert overlay even if the URL hash doesn't match. If the hash is in the
+  // URL, the non-JavaScript functionality will kick in automatically to
+  // display the non-JS overlay.
+  $(once(
+    'sidebars-overlay-refreshless-cache-restore',
+    'html',
+  )).on(`refreshless:before-render.${eventNamespace}`, async (event) => {
+
+    // Don't attempt to to do anything if this is not a preview being rendered.
+    if (event.detail.isPreview === false) {
+      return;
+    }
+
+    const context = event.detail.newBody;
+
+    await event.detail.delay(async (resolve, reject) => {
+
+      await fastdom.mutate(() => {
+        $(context).find(`.${overlayClass}`).remove();
+      });
+
+      resolve();
+
+    });
+
+  });
+
   this.addBehaviour(
     'OmnipediaSiteThemeSidebarsOverlay',
     'omnipedia-site-theme-sidebars-overlay',

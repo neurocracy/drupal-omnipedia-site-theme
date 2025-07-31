@@ -523,6 +523,34 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
 
   }
 
+  // Remove the open class when restoring a preview so that we don't have the
+  // sidebars menu stuck open even if the URL hash doesn't match. If the class
+  // is not present and the hash is in the URL, the non-JavaScript
+  // functionality will kick in automatically to open the sidebar menu.
+  $(once(
+    'sidebars-refreshless-cache-restore',
+    'html',
+  )).on(`refreshless:before-render.${eventNamespace}`, async (event) => {
+
+    // Don't attempt to to do anything if this is not a preview being rendered.
+    if (event.detail.isPreview === false) {
+      return;
+    }
+
+    const context = event.detail.newBody;
+
+    await event.detail.delay(async (resolve, reject) => {
+
+      await fastdom.mutate(() => {
+        $(context).find(`.${sidebarsOpenClass}`).removeClass(sidebarsOpenClass);
+      });
+
+      resolve();
+
+    });
+
+  });
+
   this.addBehaviour(
     'OmnipediaSiteThemeSidebars',
     'omnipedia-site-theme-sidebars',
