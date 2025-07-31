@@ -207,12 +207,6 @@ refreshless:
     - core/once
     - omnipedia_site_theme/layout_z-index_properties
 
-refreshless_ajax:
-  js:
-    javascript/refreshless_ajax.js: { attributes: { defer: true } }
-  dependencies:
-    - ambientimpact_core/framework
-
 search_form:
   css:
     theme:
