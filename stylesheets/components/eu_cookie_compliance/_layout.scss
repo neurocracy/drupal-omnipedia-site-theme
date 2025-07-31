@@ -53,6 +53,8 @@
 
   $self: &;
 
+  z-index: var(--privacy-popup-z-index);
+
   // Note that we need to compensate for the scrollbar gutter when the pop-up is
   // closing so that the pop-up contents don't shift when the viewport
   // scrollbar appears.

@@ -34,6 +34,7 @@ eu_cookie_compliance:
     - ambientimpact_ux/component.overlay
     - ambientimpact_ux/component.pointer_focus_hide
     - omnipedia_block/component.privacy_settings
+    - omnipedia_site_theme/layout_z-index_properties
     - omnipedia_site_theme/offcanvas_immerse
 
 founder_message:

@@ -33,6 +33,19 @@
   --sidebars-compact-z-index: #{z-index.get(modal) + 1};
 
   ///
+  /// Privacy pop-up z-index.
+  ///
+  /// @todo This is ugly and should be fixed as part of a z-index manager
+  ///   refactor.
+  ///
+  --privacy-popup-z-index: #{z-index.get(modal) + 2};
+
+  ///
+  /// PhotoSwipe z-index.
+  ///
+  --photoswipe-z-index: #{z-index.get(modal)};
+
+  ///
   /// Sidebar closed element z-index in compact mode.
   ///
   --sidebars-compact-closed-elements-z-index: #{z-index.get(modal)};
@@ -40,7 +53,30 @@
   ///
   /// JavaScript-powered overlay z-index.
   ///
-  --overlay-z-index: #{z-index.get(floating-above)};
+  --overlay-z-index: #{z-index.get(modal)};
+
+  ///
+  /// Drupal admin UI z-index.
+  ///
+  /// This is used for the Navigation sidebar and open tray on mobile.
+  ///
+  --drupal-admin-z-index: #{z-index.get(toolbar)};
+
+  ///
+  /// Drupal admin top bar z-index.
+  ///
+  /// @todo When z-index is refactored, stop using 'admin' since that's for in-
+  ///  page elements.
+  ///
+  --drupal-admin-z-index-admin-toolbar-control-bar: #{z-index.get(admin)};
+
+  ///
+  /// Drupal admin overlay z-index.
+  ///
+  /// @todo When z-index is refactored, stop using 'admin' since that's for in-
+  ///  page elements.
+  ///
+  --drupal-admin-z-index-overlay: #{z-index.get(admin)};
 
   ///
   /// Floating search anchor z-index.
