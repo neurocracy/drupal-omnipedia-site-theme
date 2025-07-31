@@ -92,7 +92,13 @@ function(
         modalFilter:  this.#$popup,
       });
 
-      this.#$overlay.addClass(overlayClass);
+      this.#$overlay.addClass(overlayClass).attr(
+        // This should not be cached by RefreshLess.
+        //
+        // @todo This gets visibly removed before transitioning out can we
+        //  remove on refreshless:before-render instead?
+        'data-refreshless-temporary', true,
+      );
 
       this.#overlay = this.#$overlay.prop('aiOverlay');
 

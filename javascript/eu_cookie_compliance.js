@@ -106,7 +106,13 @@ function(euCookieCompliance, $) {
 
       fastdom.mutate(function() {
 
-        that.#$popup.addClass(baseClass);
+        that.#$popup.addClass(baseClass).attr(
+        // This should not be cached by RefreshLess.
+        //
+        // @todo This gets visibly removed before transitioning out can we
+        //  remove on refreshless:before-render instead?
+          'data-refreshless-temporary', true,
+        );
 
         if (OmnipediaPrivacySettings.getToggle().length > 0) {
           that.#$popup.addClass(hasInPageToggleClass);
