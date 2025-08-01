@@ -63,3 +63,33 @@
   }
 
 }
+
+.region-content {
+
+  transition-property: transform;
+  transition-timing-function: var(--easing-decelerate);
+  transition-duration: calc(var(--refreshless-page-transition-in-duration) * 2);
+
+  transform: translateY(0);
+
+}
+
+[data-refreshless-page-transition-state='hiding'],
+[data-refreshless-page-transition-state='hidden'] {
+  .region-content {
+
+    transition-timing-function: var(--easing-accelerate);
+    transition-duration: var(--refreshless-page-transition-out-duration);
+
+    transform: translateY(8dvh);
+
+    // Don't transition transforms if the user indicates they prefer reduced
+    // motion.
+    //
+    // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+    @media (prefers-reduced-motion: reduce) {
+      transform: translateY(0);
+    }
+
+  }
+}
