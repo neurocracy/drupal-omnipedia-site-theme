@@ -368,8 +368,13 @@ AmbientImpact.addComponent(
         },
       });
 
-      this.#$overlay.on(`transitionend.${eventNamespace}`, (event) => {
-        this.#transitionEndHandler(event);
+      this.#$overlay.on({
+        [`transitionend.${eventNamespace}`]: async (event) => {
+          await this.#transitionEndHandler(event);
+        },
+        [`transitioncancel.${eventNamespace}`]: async (event) => {
+          await this.#transitionCancelHandler(event);
+        },
       });
 
     }
@@ -436,6 +441,16 @@ AmbientImpact.addComponent(
           // this.#endTransitionOut() in case the reference to resolve() got
           // out of sync or there's some other error.
           resolve();
+
+          // Also ensure that the stored reference is resolved in case it's out
+          // of sync.
+          if (typeof this.#resolveTransitionOut === 'function') {
+
+            this.#resolveTransitionOut();
+
+            this.#resolveTransitionOut = undefined;
+
+          }
 
           console.warn('RefreshLess page transition: Failsafe triggered!');
 
@@ -516,15 +531,42 @@ AmbientImpact.addComponent(
     }
 
     /**
+     * Overlay 'transitioncancel' event handler.
+     *
+     * @param {jQuery.Event} event
+     */
+    async #transitionCancelHandler(event) {
+
+      if (event.originalEvent.propertyName !== 'opacity') {
+        return;
+      }
+
+      if (this.#sequence.isRevealing() === true) {
+        await this.#endTransitionIn();
+      }
+
+      if (this.#sequence.isHiding() === true) {
+        await this.#endTransitionOut();
+      }
+
+    }
+
+    /**
      * Start revealing.
      */
     async #startTransitionIn() {
 
-      if (this.#sequence.isRevealingOrRevealed() === true) {
-        this.#endTransitionIn();
+      if (this.#sequence.isRevealing() === true) {
+        await this.#endTransitionIn();
       }
 
       console.debug('🌐 Start transition in');
+
+      // We want to advance the sequence and assert the expected value as soon
+      // as possible without delaying it. This ensures that any checks for the
+      // current state are accurate if we get a race condition as can sometimes
+      // occur with preloading or rapid clicking.
+      this.#sequence.advance().assertCurrent('revealing');
 
       // Let any rendering/layout/etc. settle for a frame before proceeding.
       await new Promise(requestAnimationFrame);
@@ -535,8 +577,6 @@ AmbientImpact.addComponent(
         this.#$overlay.removeClass(overlayActiveClass);
 
       });
-
-      this.#sequence.advance().assertCurrent('revealing');
 
       await this.#updateRootAttribute();
 
@@ -566,6 +606,10 @@ AmbientImpact.addComponent(
 
       if (this.#sequence.isHidingOrHidden() === true) {
         return;
+      }
+
+      if (this.#sequence.isRevealing() === true) {
+        await this.#endTransitionIn();
       }
 
       console.debug('🌐 Start transition out');
