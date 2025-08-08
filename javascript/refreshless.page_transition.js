@@ -69,9 +69,6 @@ AmbientImpact.addComponent(
   /**
    * Name of the root element attribute that we write the current state to.
    *
-   * This is primarily intended for styling and is only one way; changing it
-   * doesn't affect the behaviour of the overlay itself.
-   *
    * @type {String}
    */
   const transitionStateAttrName = 'data-refreshless-page-transition-state';
@@ -277,10 +274,113 @@ AmbientImpact.addComponent(
 
   }
 
+  class TransitionFailsafe {
+
+    #resolve;
+
+    start(resolve) {
+
+      this.stop();
+
+      this.#resolve = resolve;
+
+    }
+
+    stop() {
+
+      if (!this.#resolve) {
+        return;
+      }
+
+      this.#resolve();
+
+      this.#resolve = undefined;
+
+    }
+
+  }
+
+  class TransitionObserver {
+
+    /**
+     * The root (<html>) element wrapped in a jQuery collection.
+     *
+     * @type {jQuery}
+     */
+    #$root;
+
+    /**
+     * The MutationObserver instance.
+     *
+     * @type {MutationObserver}
+     */
+    #observer;
+
+    constructor($root) {
+
+      this.#$root = $root;
+
+      this.#observer = new MutationObserver((mutations) => {
+        this.#observerCallback(mutations);
+      });
+
+      this.#observer.observe(this.#$root[0], {
+        attributeFilter: [transitionStateAttrName],
+        attributeOldValue: true,
+      });
+
+    }
+
+    /**
+     * Destroy this instance.
+     */
+    destroy() {
+
+      this.#observer.disconnect();
+
+    }
+
+    async #observerCallback(mutations) {
+
+      for (let i = 0; i < mutations.length; i++) {
+
+        let newValue = await fastdom.measure(() => {
+          return $(mutations[i].target).attr(mutations[i].attributeName);
+        });
+
+        let oldValue = mutations[i].oldValue;
+
+        // Ignore cases where the attribute was written but didn't change in
+        // value.
+        if (newValue === oldValue) {
+          continue;
+        }
+
+        this.#trigger(newValue, oldValue);
+
+      }
+
+    }
+
+    #trigger(current, previous) {
+
+      console.debug('🎭 Transitioned "%s" -> "%s"', previous, current);
+
+    }
+
+  }
+
   /**
    * Represents the RefreshLess page transition overlay.
    */
   class TransitionOverlay {
+
+    /**
+     * The transition observer instance.
+     *
+     * @type {TransitionObserver}
+     */
+    #observer;
 
     /**
      * The overlay element wrapped in a jQuery collection.
@@ -323,7 +423,13 @@ AmbientImpact.addComponent(
 
       this.#sequence = new TransitionSequence();
 
-      this.#updateRootAttribute();
+      // Only start the observer after we've set the initial value on the
+      // attribute to avoid the observer triggering on that.
+      this.#updateRootAttribute().then(() => {
+
+        this.#observer = new TransitionObserver($root);
+
+      });
 
     }
 
@@ -333,11 +439,13 @@ AmbientImpact.addComponent(
      * @return {Promise}
      *   A Promise that resolves when various DOM tasks are complete.
      */
-    destroy() {
+    async destroy() {
 
       this.#unbindEventHandlers();
 
-      return fastdom.mutate(() => {
+      await this.#observer.destroy();
+
+      await fastdom.mutate(() => {
 
         this.#$overlay.remove();
 
