@@ -76,6 +76,7 @@ header:
     - ambientimpact_ux/component.headroom
     - ambientimpact_ux/component.overlay
     - ambientimpact_ux/component.responsive_style_property
+    - core/once
     - omnipedia_site_theme/current_date # Required for the current date element.
     - omnipedia_site_theme/offcanvas_immerse
     - omnipedia_site_theme/search_form
