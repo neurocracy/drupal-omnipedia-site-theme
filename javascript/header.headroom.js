@@ -207,7 +207,9 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
 
       const currentHeadroom = $currentElements[i].headroom;
 
-      for (const key in currentHeadroom.classes) {
+      // Only sync these but not the top/bottom classes because those can
+      // occasionally get stuck and Headroom won't update them after loading.
+      for (const key of ['initial', 'pinned', 'unpinned']) {
 
         if (!currentHeadroom.hasClass(key)) {
           continue;
