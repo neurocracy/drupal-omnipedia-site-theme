@@ -39,6 +39,16 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
     '.search-anchor',
   ].join(',');
 
+  /**
+   * Class added to prevent transitions when switching from preview to fresh.
+   *
+   * This is primarily to prevent the header shadow briefly being shown and then
+   * disappearing if initialized at the top.
+   *
+   * @type {String}
+   */
+  const lockTopClass = 'headroom--lock-top';
+
   // We want this to be detached on leaving a page and before rendering a
   // cached snapshot, but critically we should not detach
   // on 'refreshless:before-cache' because that will cause the header to pop
@@ -74,6 +84,9 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
       });
 
     }
+
+    // Remove the lock top class if present.
+    $elements.removeClass(lockTopClass);
 
     // Synchronize pin, freeze, and unfreeze between the elements. This is
     // needed so that both elements are pinned and frozen at the same time
@@ -220,6 +233,11 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderHeadroom', function(
         //  individually.
         $newElements.eq(i).addClass(currentHeadroom.classes[key]);
 
+      }
+
+      // Add the lock top class if element is at the top at this moment.
+      if (currentHeadroom.hasClass('top')) {
+        $newElements.eq(i).addClass(lockTopClass);
       }
 
     }
