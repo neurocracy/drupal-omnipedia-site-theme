@@ -2,6 +2,8 @@
 //   RefreshLess page transition component partial
 // -----------------------------------------------------------------------------
 
+@use '../../variables/colours'; // Configure colours.
+@use 'sass/helpers/colour';
 @use 'sass/helpers/z-index';
 
 :root {
@@ -48,9 +50,19 @@
 
   }
 
-  z-index: var(--refreshless-page-transition-overlay-z-index);
+  // Note the really high fallback value. This is one less than the default
+  // RefreshLess progress bar, and intended to avoid issues with flashes of
+  // unstyled content as a different CSS aggregate is loaded when navigating.
+  z-index: var(--refreshless-page-transition-overlay-z-index, 2147483646);
 
-  background-color: var(--background-colour);
+  // We want to explicitly output colours instead of relying on
+  // --background-colour as that might briefly be undefined during CSS aggregate
+  // loading.
+  @include colour.set($background: colour.$background-light);
+
+  @include colour.on-dark-scheme {
+    @include colour.set($background: colour.$background-dark);
+  }
 
   &--active {
 
