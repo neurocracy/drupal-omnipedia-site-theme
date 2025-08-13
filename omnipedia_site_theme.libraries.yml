@@ -198,7 +198,10 @@ references:
 refreshless:
   css:
     theme:
-      stylesheets/components/refreshless.css: {}
+      # This is a fairly small CSS file so we can afford to exclude it from
+      # aggregation so that we (hopefully) prevent flashes of unstyled overlay
+      # when a new CSS aggregate is loaded.
+      stylesheets/components/refreshless.css: { preprocess: false }
   js:
     javascript/refreshless.page_transition.js: { attributes: { defer: true } }
     javascript/refreshless.progress.js: { attributes: { defer: true } }
