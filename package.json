@@ -23,6 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
+    "@blakedarlin/sass-json-importer": "^1.1.0",
     "@consensus.enterprises/pnp-vendorize": "^1.0.0",
     "@neurocracy/postcss-easing-gradients": "^3.0.2",
     "@symfony/webpack-encore": "^4.7.0",

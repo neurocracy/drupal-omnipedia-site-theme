@@ -2,6 +2,8 @@ import Encore from '@symfony/webpack-encore';
 import { glob } from 'glob';
 import * as path from 'node:path';
 import { default as vendorize } from '@consensus.enterprises/pnp-vendorize';
+import JsonImporter from '@blakedarlin/sass-json-importer';
+// const { default: jsonImporter } = await import('@blakedarlin/sass-json-importer');
 
 // The remaining modules are CommonJS only. Because of this, they must be
 // import()ed and destructured like so to behave similarly to ESM imports.
@@ -185,7 +187,8 @@ Encore.setOutputPath(path.resolve(
 
 .enableSassLoader(function(options) {
   options.sassOptions = {
-    importer: [baseThemeImporter],
+    // importer: [baseThemeImporter, jsonImporter({loadPaths: ['./']})],
+    importer: [baseThemeImporter, new JsonImporter({loadPaths: ['./']})],
     includePaths: componentPaths().all,
   };
 })

@@ -1,0 +1,18 @@
+{
+  "logo": {
+    "file": "images/site_logo.svg?v=1",
+    "alt": "The Omnipedia logo: a checkered globe with several squares missing at the top.",
+    "width": 128,
+    "height": 128
+  },
+  "siteName": {
+    "file": "images/site_name.svg?v=1",
+    "width": 128,
+    "height": 20
+  },
+  "siteSlogan": {
+    "file": "images/site_slogan.svg?v=1",
+    "width": 128,
+    "height": 13
+  }
+}
