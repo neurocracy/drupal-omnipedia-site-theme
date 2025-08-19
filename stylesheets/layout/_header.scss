@@ -225,10 +225,20 @@ header[role='banner'] {
   // Indicate to the header JavaScript that the anchor is visible.
   --omnipedia-search-anchor-state: visible;
 
-  // When the search target is in fact the target in the location hash, prevent
-  // any pointer events on the anchor so that the search button can be clicked/
-  // tapped.
-  .search-target:target + & {
+  // When the search target is the target in the location hash or the search
+  // field has focus, prevent any pointer events on the anchor so that the
+  // search button can be clicked/tapped.
+  .search-target:target + &,
+  .search-target--form-has-focus + & {
+    pointer-events: none;
+  }
+
+  // For modern browsers, we can use the :has() selector to accomplish this
+  // without JavaScript. This must be kept as a separate rule to avoid older
+  // browsers ignoring the whole rule if they don't support the selector.
+  //
+  // @see https://caniuse.com/css-has
+  &:has(~ .region-primary-menu .omnipedia-header__search-form:focus-within) {
     pointer-events: none;
   }
 
