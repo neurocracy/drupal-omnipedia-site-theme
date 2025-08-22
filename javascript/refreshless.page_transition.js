@@ -416,10 +416,7 @@ AmbientImpact.addComponent(
       // If this is a fresh page that replaced a cached preview, do nothing
       // because the page will have already been transitioned in when the
       // preview was rendered.
-      if (
-        event.detail.isPreview === false &&
-        event.detail.previousPreview === true
-      ) {
+      if (event.detail.isFreshReplacingPreview === true) {
         return;
       }
 
