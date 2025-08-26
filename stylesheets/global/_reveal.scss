@@ -79,7 +79,7 @@ $site-reveal-overlay-animation-delay: 0.3s;
 
     // Remove the animation entirely when RefreshLess takes over page
     // transitions so that this doesn't play when page content is swapped in.
-    html.refreshless--page-transition-handled & {
+    html[data-refreshless-page-transition-state]:not([data-refreshless-page-transition-state='initial']) & {
       animation-name: none;
     }
 

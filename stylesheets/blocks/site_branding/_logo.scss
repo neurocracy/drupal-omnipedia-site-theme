@@ -220,7 +220,7 @@
 
       // Remove the reveal animation during RefreshLess loads so that it feels
       // more persistent and like there's continuity between pages.
-      html.refreshless--page-transition-handled & {
+      html[data-refreshless-page-transition-state]:not([data-refreshless-page-transition-state='initial']) & {
 
         animation-name:             site-logo-pulse;
         animation-duration:         var(--pulse-animation-duration);

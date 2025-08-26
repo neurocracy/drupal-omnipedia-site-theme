@@ -4,73 +4,18 @@
 
 @use '../../variables/colours'; // Configure colours.
 @use 'sass/helpers/colour';
-@use 'sass/helpers/z-index';
 
 :root {
 
-  ///
-  /// RefreshLess page transition duration when entering a page.
-  ///
-  --refreshless-page-transition-in-duration: 0.1s;
-
-  ///
-  /// RefreshLess page transition duration when leaving a page.
-  ///
-  --refreshless-page-transition-out-duration: 0.3s;
-
-}
-
-.refreshless-page-transition-overlay {
-
-  display:  block;
-
-  position: fixed;
-
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition-property: opacity;
-  transition-timing-function: linear;
-  transition-duration: var(--refreshless-page-transition-out-duration);
-
-  top:  0;
-  left: 0;
-
-  width:  100vw;
-  height: 100vh;
-
-  // Use dynamic viewport units when available.
-  //
-  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/length#dynamic
-  @supports (width: 100dvw) {
-
-    width:  100dvw;
-    height: 100dvh;
-
-  }
-
-  // Note the really high fallback value. This is one less than the default
-  // RefreshLess progress bar, and intended to avoid issues with flashes of
-  // unstyled content as a different CSS aggregate is loaded when navigating.
-  z-index: var(--refreshless-page-transition-overlay-z-index, 2147483646);
-
-  // We want to explicitly output colours instead of relying on
-  // --background-colour as that might briefly be undefined during CSS aggregate
-  // loading.
-  @include colour.set($background: colour.$background-light);
+  --refreshless-page-transition-overlay-background-colour: #{
+    colour.$background-light
+  };
 
   @include colour.on-dark-scheme {
-    @include colour.set($background: colour.$background-dark);
-  }
 
-  &--active {
-
-    opacity: 1;
-
-    pointer-events: auto;
-
-    transition-duration: var(--refreshless-page-transition-in-duration);
+    --refreshless-page-transition-overlay-background-colour: #{
+      colour.$background-dark
+    };
 
   }
 
