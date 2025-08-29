@@ -29,6 +29,8 @@
 
   transform: translateY(0);
 
+  // @todo z-index fix for tooltips now getting laid out under sidebars.
+
 }
 
 [data-refreshless-page-transition-state='hiding'],
