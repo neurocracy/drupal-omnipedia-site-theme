@@ -28,6 +28,27 @@ header[role='banner'],
     transition-duration:        200ms;
     // Opacity transitions look more natural with linear easing.
     transition-timing-function: linear;
+
+    // Don't transition the shadow element during RefreshLess page transitions.
+    // Shadow transitions will often not be visible due to us attaching
+    // Headroom right at render, which is okay, but sometimes they are in cases
+    // where there's no preloaded/cached response to show.
+    :root[data-refreshless-page-transition-state]:not(
+      [data-refreshless-page-transition-state='revealed']
+    ) & {
+      transition-duration: 0ms;
+    }
+
+  }
+
+  // This prevents a brief flash of shadow when swapping a preview for the fresh
+  // copy, which involves detaching from the former and then attaching to the
+  // latter. This occurs due to one or more frames being rendered with the
+  // shadow when no JS is attached, causing the browser to start the
+  // transition.
+  &.headroom--lock-top::after {
+    opacity: 0;
+    transition-duration: 0ms;
   }
 
   &.headroom--top,
