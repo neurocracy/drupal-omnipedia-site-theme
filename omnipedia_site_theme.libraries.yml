@@ -71,6 +71,7 @@ header:
     javascript/header.state.js: { attributes: { defer: true } }
   dependencies:
     - ambientimpact_core/ally.js
+    - ambientimpact_core/component.fastdom
     - ambientimpact_core/framework
     - ambientimpact_ux/component.hash_matcher
     - ambientimpact_ux/component.headroom

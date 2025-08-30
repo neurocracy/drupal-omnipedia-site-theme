@@ -6,11 +6,13 @@
 // only overlay for consistency and to make use of various features like scroll
 // blocking while the overlay is open.
 
+AmbientImpact.onGlobals(['once'], function() {
 AmbientImpact.on([
+  'fastdom',
   'OmnipediaSiteThemeHeaderElements',
   'OmnipediaSiteThemeHeaderState',
   'overlay',
-], function(headerElements, headerState, aiOverlay, $) {
+], function(aiFastDom, headerElements, headerState, aiOverlay, $) {
 AmbientImpact.addComponent('OmnipediaSiteThemeHeaderOverlay', function(
   headerOverlay, $
 ) {
@@ -23,6 +25,13 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderOverlay', function(
    * @type {String}
    */
   const eventNamespace = this.getName();
+
+  /**
+   * FastDom instance.
+   *
+   * @type {FastDom}
+   */
+  const fastdom = aiFastDom.getInstance();
 
   /**
    * Class applied to the <main> element when the JavaScript overlay is present.
@@ -163,5 +172,33 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderOverlay', function(
     }
   );
 
+  // Remove any cached overlay and remove the has overlay class when restoring
+  // from RefreshLess cache.
+  $(once(
+    'header-overlay-cache-restore',
+    'html',
+  )).on(`refreshless:before-render.${eventNamespace}`, async (event) => {
+
+    // Don't attempt to to do anything if this is not a cached snapshot being
+    // rendered.
+    if (event.detail.isCachedSnapshot === false) {
+      return;
+    }
+
+    const context = event.detail.newBody;
+
+    await event.detail.delay(async (resolve, reject) => {
+
+      $('main', context).removeClass(hasOverlayClass);
+
+      $(context).find(`.${overlayClass}`).remove();
+
+      resolve();
+
+    });
+
+  });
+
+});
 });
 });
