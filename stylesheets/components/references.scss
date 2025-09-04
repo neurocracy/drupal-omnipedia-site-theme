@@ -17,3 +17,8 @@
     $spacing-large: content.$item-vertical-spacing-large
   );
 }
+
+// Undo the italics inside blockquotes for the reference links.
+blockquote .reference {
+  font-style: normal;
+}
