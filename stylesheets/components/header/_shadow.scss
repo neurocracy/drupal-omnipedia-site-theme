@@ -36,6 +36,8 @@ header[role='banner'],
     // where there's no preloaded/cached response to show.
     :root[data-refreshless-page-transition-state]:not(
       [data-refreshless-page-transition-state='revealed']
+    ):not(
+      [data-refreshless-page-transition-state='initial']
     ) & {
       transition-duration: 0ms;
     }
