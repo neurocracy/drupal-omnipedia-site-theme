@@ -191,7 +191,6 @@
         header[role='banner'].header-immersed-once & {
 
           --pulse-animation-delay: calc(
-            /*(var(--headroom-duration) * 0.5) +*/
             (var(--row, 0) - 1) * var(--stagger-interval)
           );
 
@@ -206,13 +205,14 @@
         // Removes all animations so that they immediately start from their
         // starting keyframe when applied again once the header is pinned.
         //
-        // Note that the :not(.headroom--settled) is important to only apply the
+        // Note that the .headroom--settled class is important to only apply the
         // animation after the header has finished transitioning into view
         // because Chrome on Android experiences some nasty scrolling jank if
         // the logo shimmer animation is applied while the header is
         // transitioning into view. Trying all the possible values of 'contain'
         // had no success, including contain: strict;.
-        header[role='banner']:not(.headroom--settled) & {
+        header[role='banner'].headroom--pinned:not(.headroom--settled) &,
+        header[role='banner'].headroom--unpinned.headroom--settled & {
           animation-name: none;
         }
 
