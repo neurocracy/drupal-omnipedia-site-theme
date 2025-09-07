@@ -199,6 +199,11 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
 
         that.#$sidebars.addClass(sidebarsOpenClass);
 
+        const headroom = that.#$menuOpen.closest('.headroom').prop('headroom');
+
+        // Same as this.open().
+        headroom.pin();
+
         that.#$sidebars.trigger('omnipediaSidebarsMenuOpen', that);
 
       });
@@ -486,6 +491,11 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
     open() {
 
       const headroom = this.#$menuOpen.closest('.headroom').prop('headroom');
+
+      // Pin (show) the Headroom element containing the open link to prevent
+      // unexpected scrolling when we invoke the click() as it may be off
+      // screen at this point if the Headroom element was unpinned.
+      headroom.pin();
 
       // Perform a click using the DOM method (not the jQuery method) so that
       // this triggers everything applicable to create a new history state.
