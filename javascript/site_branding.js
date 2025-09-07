@@ -48,22 +48,47 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSiteBranding', function(
    */
   const unpinnedOnceClass = 'headroom--unpinned-once';
 
+  /**
+   * Class added to the header when not transitioning in or out of view.
+   *
+   * @type {String}
+   */
+  const settledClass = 'headroom--settled';
+
   this.addBehaviour(
-    'OmnipediaSiteThemeSiteBrandingUnpinOnce',
-    'omnipedia-site-theme-site-branding-unpin-once',
+    'OmnipediaSiteThemeSiteBrandingHeadroom',
+    'omnipedia-site-theme-site-branding-headroom',
     headerSelector,
     function(context, settings) {
 
-      $(this).on(`headroomUnpin.${eventNamespace}`, function(event) {
+      $(this).on(`headroomUnpin.${eventNamespace}`, (event) => {
+
         $(this).addClass(unpinnedOnceClass);
+
+      }).on([
+        `headroomPin.${eventNamespace}`,
+        `headroomUnpin.${eventNamespace}`,
+      ].join(' '), (event) => {
+
+        $(event.target).removeClass(settledClass);
+
+      }).on(`transitionend.${eventNamespace}`, (event) => {
+
+        if (event.originalEvent.propertyName !== 'transform') {
+          return;
+        }
+
+        $(event.target).addClass(settledClass);
+
       });
 
     },
     function(context, settings, trigger) {
 
-      $(this).off(`headroomUnpin.${eventNamespace}`).removeClass(
+      $(this).off(`.${eventNamespace}`).removeClass([
+        settledClass,
         unpinnedOnceClass,
-      );
+      ]);
 
     }
   );
