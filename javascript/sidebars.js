@@ -199,12 +199,6 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
 
         that.#$sidebars.addClass(sidebarsOpenClass);
 
-        const headroom = that.#$menuOpen.closest('.headroom').prop('headroom');
-
-        // Same as this.open().
-        headroom.pin();
-        headroom.freeze();
-
         that.#$sidebars.trigger('omnipediaSidebarsMenuOpen', that);
 
       });
@@ -493,14 +487,6 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
 
       const headroom = this.#$menuOpen.closest('.headroom').prop('headroom');
 
-      // Pin (show) the Headroom element containing the open link to prevent
-      // unexpected scrolling when we invoke the click() as it may be off
-      // screen at this point if the Headroom element was unpinned.
-      headroom.pin();
-      // Also freeze it so it can't be unpinned by an badly timed scroll between
-      // this and when the scroll blocking kicks in.
-      headroom.freeze();
-
       // Perform a click using the DOM method (not the jQuery method) so that
       // this triggers everything applicable to create a new history state.
       // This is especially useful with RefreshLess as calling
@@ -514,8 +500,6 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSidebars', function(sidebars, $) {
      * Close the menu.
      */
     close() {
-
-      this.#$menuOpen.closest('.headroom').prop('headroom').unfreeze();
 
       this.#hashMatcher.setInactive();
 

@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @use 'sass/helpers/colour';
+@use 'sass/helpers/selector';
 
 ///
 /// Header shadow on light backgrounds.
@@ -57,4 +58,20 @@ header[role='banner'],
       opacity: 0;
     }
   }
+
+  @include selector.root-conditions((
+    '.refreshless-progress-bar-active',
+  ), 'html') {
+    &.headroom--not-top::after {
+      opacity: 1;
+    }
+  }
+
+  .layout-container:has(.layout-sidebars--open) &,
+  .layout-container:has(.omnipedia-header__search-form:focus-within) & {
+    &.headroom--not-top::after {
+      opacity: 1;
+    }
+  }
+
 }

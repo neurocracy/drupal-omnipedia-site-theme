@@ -80,6 +80,18 @@ header[role='banner'],
   --headroom-translate-unpinned: calc(
     -100% - #{layout-config.$gutter * 2} - #{general-variables.$divider-thickness}
   );
+
+  @include selector.root-conditions((
+    '.refreshless-progress-bar-active',
+  ), 'html') {
+    @include headroom.headroom-pinned;
+  }
+
+  .layout-container:has(.layout-sidebars--open) &,
+  .layout-container:has(.omnipedia-header__search-form:focus-within) & {
+    @include headroom.headroom-pinned;
+  }
+
 }
 
 // The header region needs to be given the Headroom transform and transition

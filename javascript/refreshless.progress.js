@@ -2,9 +2,11 @@
 //   Omnipedia - Site theme - RefreshLess progress
 // -----------------------------------------------------------------------------
 
+AmbientImpact.onGlobals(['once'], function() {
+AmbientImpact.on(['fastdom'], (aiFastDom) => {
 AmbientImpact.addComponent(
   'OmnipediaSiteThemeRefreshLessProgress',
-function(component, $) {
+(component, $) => {
 
   'use strict';
 
@@ -16,57 +18,41 @@ function(component, $) {
   const eventNamespace = component.getName();
 
   /**
-   * The selector to find the header element by.
+   * FastDom instance.
+   *
+   * @type {FastDom}
+   */
+  const fastdom = aiFastDom.getInstance();
+
+  /**
+   * Class applied to the <html> element when the progress bar is active.
    *
    * @type {String}
+   *
+   * @todo Port this to the RefreshLess module and remove from here.
    */
-  const headerSelector = 'header[role="banner"]';
+  const progressBarActiveClass = 'refreshless-progress-bar-active';
 
-  component.addBehaviour(
-    'OmnipediaSiteThemeRefreshLessProgress',
-    'omnipedia-site-theme-refreshless-progress',
-    'body',
-    function(context, settings) {
+  $(once(
+    'omnipedia-site-theme-refreshless-progress-active', 'html',
+  )).on(`refreshless:progress-bar-active.${eventNamespace}`, async (event) => {
 
-      $(document.documentElement)
-      // This forces the header to be shown when the RefreshLess progress bar is
-      // active, both to draw attention to it and ensure the progress bar
-      // doesn't get lost visually against potential visual noise of content
-      // below it.
-      .on(`refreshless:progress-bar-active.${eventNamespace}`, (event) => {
+    await fastdom.mutate(() => {
 
-        const headroom = $(event.target).find(headerSelector).prop('headroom');
+      $(event.target).addClass(progressBarActiveClass);
 
-        headroom.pin();
+    });
 
-        headroom.freeze();
+  }).on(`refreshless:progress-bar-inactive.${eventNamespace}`, async (event) => {
 
-      })
-      .on(`refreshless:progress-bar-inactive.${eventNamespace}`, (event) => {
+    await fastdom.mutate(() => {
 
-        const headroom = $(event.target).find(headerSelector).prop('headroom');
+      $(event.target).removeClass(progressBarActiveClass);
 
-        headroom.unfreeze();
+    });
 
-      });
+  });
 
-    },
-    function(context, settings, trigger) {
-
-      $(document.documentElement).off([
-        `refreshless:progress-bar-active.${eventNamespace}`,
-        `refreshless:progress-bar-inactive.${eventNamespace}`,
-      ].join(' '));
-
-      const headroom = $(this, context).find(headerSelector).prop('headroom');
-
-      // If the header headroom has already been detached and destroyed, this
-      // will be undefined and trying to call it will result in an error.
-      if (typeof headroom === 'object') {
-        headroom.unfreeze();
-      }
-
-    },
-  );
-
+});
+});
 });
