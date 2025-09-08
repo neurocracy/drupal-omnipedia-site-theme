@@ -85,10 +85,9 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSiteBranding', function(
     },
     function(context, settings, trigger) {
 
-      $(this).off(`.${eventNamespace}`).removeClass([
-        settledClass,
-        unpinnedOnceClass,
-      ]);
+      // Note that we don't want to remove the classes so that they're preserved
+      // when restoring from RefreshLess' cache.
+      $(this).off(`.${eventNamespace}`);
 
     }
   );
@@ -106,9 +105,9 @@ AmbientImpact.addComponent('OmnipediaSiteThemeSiteBranding', function(
     },
     function(context, settings, trigger) {
 
-      $(this).off(`immerseEnter.${eventNamespace}`).find(
-        headerSelector,
-      ).removeClass(immersedOnceClass);
+      // Note that we don't want to remove the class so that it's preserved when
+      // restoring from RefreshLess' cache.
+      $(this).off(`immerseEnter.${eventNamespace}`);
 
     }
   );
