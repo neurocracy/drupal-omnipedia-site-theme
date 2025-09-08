@@ -92,6 +92,14 @@ header[role='banner'],
     @include headroom.headroom-pinned;
   }
 
+  // Remove Headroom transitions when the page is hidden or in the processing of
+  // revealing to prevent the header occasionally being seen transitioning down
+  // into place when navigating between pages.
+  html[data-refreshless-page-transition-state='hidden'] &,
+  html[data-refreshless-page-transition-state='revealing'] & {
+    --headroom-duration: 0s;
+  }
+
 }
 
 // The header region needs to be given the Headroom transform and transition
