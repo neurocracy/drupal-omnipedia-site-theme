@@ -13,6 +13,11 @@
 :root {
 
   ///
+  /// RefreshLess progress bar z-index.
+  ///
+  --refreshless-progress-bar-z-index: #{z-index.get(page-progress-bar)};
+
+  ///
   /// RefreshLess page transition overlay z-index.
   ///
   --refreshless-page-transition-overlay-z-index: #{z-index.get(
