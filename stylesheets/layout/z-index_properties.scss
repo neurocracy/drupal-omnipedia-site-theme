@@ -2,7 +2,11 @@
 //   Site layout - Global z-index custom properties
 // -----------------------------------------------------------------------------
 
-@use 'sass/helpers/z-index';
+@use 'base:layout/z-index';
+
+@include z-index.above(modal, sidebars-compact);
+
+@include z-index.above(sidebars-compact, privacy-popup);
 
 // Note that while the order they're declared here doesn't matter, these are
 // sorted from highest to lowest for clarity.
@@ -11,34 +15,24 @@
   ///
   /// RefreshLess page transition overlay z-index.
   ///
-  /// @todo This is ugly and should be fixed as part of a z-index manager
-  ///   refactor.
-  ///
-  --refreshless-page-transition-overlay-z-index: #{z-index.get(modal) + 5};
+  --refreshless-page-transition-overlay-z-index: #{z-index.get(
+    page-transition-overlay,
+  )};
 
   ///
   /// Tooltip z-index.
   ///
-  /// @todo This is ugly and should be fixed as part of a z-index manager
-  ///   refactor.
-  ///
-  --tooltip-z-index: #{z-index.get(modal) + 4};
-
-  ///
-  /// Sidebars in compact mode z-index.
-  ///
-  /// @todo This is ugly and should be fixed as part of a z-index manager
-  ///   refactor.
-  ///
-  --sidebars-compact-z-index: #{z-index.get(modal) + 1};
+  --tooltip-z-index: #{z-index.get(popovers)};
 
   ///
   /// Privacy pop-up z-index.
   ///
-  /// @todo This is ugly and should be fixed as part of a z-index manager
-  ///   refactor.
+  --privacy-popup-z-index: #{z-index.get(privacy-popup)};
+
   ///
-  --privacy-popup-z-index: #{z-index.get(modal) + 2};
+  /// Sidebars in compact mode z-index.
+  ///
+  --sidebars-compact-z-index: #{z-index.get(sidebars-compact)};
 
   ///
   /// PhotoSwipe z-index.
@@ -53,7 +47,7 @@
   ///
   /// JavaScript-powered overlay z-index.
   ///
-  --overlay-z-index: #{z-index.get(modal)};
+  --overlay-z-index: #{z-index.get(modal-overlay)};
 
   ///
   /// Drupal admin UI z-index.
