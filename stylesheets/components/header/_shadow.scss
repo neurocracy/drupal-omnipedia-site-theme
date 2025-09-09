@@ -2,6 +2,7 @@
 //   Site header - Shadow
 // -----------------------------------------------------------------------------
 
+@use 'immerse';
 @use 'sass/helpers/colour';
 @use 'sass/helpers/selector';
 
@@ -56,6 +57,12 @@ header[role='banner'],
 
   &.headroom--top,
   &.headroom--unpinned {
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  @include immerse.on-immerse {
     &::after {
       opacity: 0;
     }
