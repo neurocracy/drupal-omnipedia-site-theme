@@ -59,23 +59,28 @@
   ///
   /// This is used for the Navigation sidebar and open tray on mobile.
   ///
-  --drupal-admin-z-index: #{z-index.get(toolbar)};
+  --drupal-admin-z-index: #{z-index.get(admin-toolbar)};
 
   ///
-  /// Drupal admin top bar z-index.
+  /// Drupal admin control bar z-index.
   ///
-  /// @todo When z-index is refactored, stop using 'admin' since that's for in-
-  ///  page elements.
+  /// This is the top bar on small screens.
   ///
-  --drupal-admin-z-index-admin-toolbar-control-bar: #{z-index.get(admin)};
+  --drupal-admin-z-index-admin-toolbar-control-bar: #{z-index.get(
+    admin-toolbar-control-bar,
+  )};
 
   ///
   /// Drupal admin overlay z-index.
   ///
-  /// @todo When z-index is refactored, stop using 'admin' since that's for in-
-  ///  page elements.
+  /// This is used on small screens when the sidebar is opened.
   ///
-  --drupal-admin-z-index-overlay: #{z-index.get(admin)};
+  --drupal-admin-z-index-overlay: #{z-index.get(admin-toolbar-overlay)};
+
+  ///
+  /// Contextual links z-index.
+  ///
+  --contextual-links-z-index: #{z-index.get(in-page-admin)};
 
   ///
   /// Floating search anchor z-index.
