@@ -50,6 +50,11 @@
   --sidebars-compact-closed-elements-z-index: #{z-index.get(modal)};
 
   ///
+  /// Modal off-canvas panel z-index.
+  ///
+  --off-canvas-panel-modal-z-index: #{z-index.get(modal)};
+
+  ///
   /// JavaScript-powered overlay z-index.
   ///
   --overlay-z-index: #{z-index.get(modal-overlay)};
