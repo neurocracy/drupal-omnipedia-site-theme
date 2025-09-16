@@ -1,0 +1,17 @@
+// -----------------------------------------------------------------------------
+//   Drupal messages
+// -----------------------------------------------------------------------------
+
+@use '../layout/config' as layout-config; // Configure layout.
+@use 'base:global/content';
+@use 'base:layout/vertical_spacing' as vertical-spacing;
+
+// Note that we're not specifically scoping this to node content or similar
+// since the selector this builds should ensure this won't be applied to
+// messages output by Drupal's messenger because the
+// [data-drupal-messages-fallback] that precedes it has the 'hidden' attribute.
+@include vertical-spacing.against-previous(
+  '[data-drupal-messages]',
+  $spacing-small: content.$item-vertical-spacing-small,
+  $spacing-large: content.$item-vertical-spacing-large,
+);
