@@ -2,90 +2,29 @@
 //   Site layout - Global z-index custom properties
 // -----------------------------------------------------------------------------
 
-@use 'base:layout/z-index';
+@use 'base:layout/z-index/stacking_order' as stacking-order;
+@use 'base:layout/z-index/custom_properties' as custom-properties;
 
-@include z-index.above(modal, sidebars-compact);
+@include stacking-order.above(modal, sidebars-compact);
 
-@include z-index.above(sidebars-compact, privacy-popup);
+@include stacking-order.above(sidebars-compact, privacy-popup);
 
-// Note that while the order they're declared here doesn't matter, these are
-// sorted from highest to lowest for clarity.
-:root {
-
-  ///
-  /// RefreshLess progress bar z-index.
-  ///
-  --refreshless-progress-bar-z-index: #{z-index.get(page-progress-bar)};
-
-  ///
-  /// RefreshLess page transition overlay z-index.
-  ///
-  --refreshless-page-transition-overlay-z-index: #{z-index.get(
-    page-transition-overlay,
-  )};
-
-  ///
-  /// Tooltip z-index.
-  ///
-  --tooltip-z-index: #{z-index.get(popovers)};
+@include custom-properties.output {
 
   ///
   /// Privacy pop-up z-index.
   ///
-  --privacy-popup-z-index: #{z-index.get(privacy-popup)};
+  --privacy-popup-z-index: #{stacking-order.get(privacy-popup)};
 
   ///
   /// Sidebars in compact mode z-index.
   ///
-  --sidebars-compact-z-index: #{z-index.get(sidebars-compact)};
-
-  ///
-  /// PhotoSwipe z-index.
-  ///
-  --photoswipe-z-index: #{z-index.get(modal)};
+  --sidebars-compact-z-index: #{stacking-order.get(sidebars-compact)};
 
   ///
   /// Sidebar closed element z-index in compact mode.
   ///
-  --sidebars-compact-closed-elements-z-index: #{z-index.get(modal)};
-
-  ///
-  /// Modal off-canvas panel z-index.
-  ///
-  --off-canvas-panel-modal-z-index: #{z-index.get(modal)};
-
-  ///
-  /// JavaScript-powered overlay z-index.
-  ///
-  --overlay-z-index: #{z-index.get(modal-overlay)};
-
-  ///
-  /// Drupal admin UI z-index.
-  ///
-  /// This is used for the Navigation sidebar and open tray on mobile.
-  ///
-  --drupal-admin-z-index: #{z-index.get(admin-toolbar)};
-
-  ///
-  /// Drupal admin control bar z-index.
-  ///
-  /// This is the top bar on small screens.
-  ///
-  --drupal-admin-z-index-admin-toolbar-control-bar: #{z-index.get(
-    admin-toolbar-control-bar,
-  )};
-
-  ///
-  /// Drupal admin overlay z-index.
-  ///
-  /// This is used on small screens when the sidebar is opened.
-  ///
-  --drupal-admin-z-index-overlay: #{z-index.get(admin-toolbar-overlay)};
-
-  ///
-  /// Contextual links z-index.
-  ///
-  --contextual-links-z-index: #{z-index.get(in-page-admin)};
+  --sidebars-compact-closed-elements-z-index: #{stacking-order.get(modal)};
 
   ///
   /// Floating search anchor z-index.
@@ -93,17 +32,12 @@
   /// This is primarily used to change the URL :target to allow revealing the
   /// search form in compact mode if JavaScript hasn't enhanced it.
   ///
-  --search-anchor-z-index: #{z-index.get(floating-above)};
+  --search-anchor-z-index: #{stacking-order.get(floating-above)};
 
   ///
   /// Site reveal animation overlay.
   ///
-  --site-reveal-overlay-z-index: #{z-index.get(floating-above)};
-
-  ///
-  /// The skip to main content link z-index.
-  ///
-  --skip-link-z-index: #{z-index.get(floating-above)};
+  --site-reveal-overlay-z-index: #{stacking-order.get(floating-above)};
 
   ///
   /// Header elements z-index.
@@ -111,11 +45,11 @@
   /// In compact mode, this is both the <header> element and the primary menu
   /// region. Outside of compact mode, this is only the primary menu region.
   ///
-  --header-z-index: #{z-index.get(floating)};
+  --header-z-index: #{stacking-order.get(floating)};
 
   ///
   /// Header overlay z-index, both CSS-only and when enhanced by JavaScript.
   ///
-  --header-overlay-z-index: #{z-index.get(floating-below)};
+  --header-overlay-z-index: #{stacking-order.get(floating-below)};
 
 }
