@@ -59,7 +59,7 @@
 // Common stuff regardless of whether subgrid is supported.
 .layout-container {
   @include breakpoint.on('<layout-with-both-sidebars') {
-    margin-top: layout-config.$gutter;
+    padding-top: layout-config.$gutter;
   }
 
   @include layout-sidebars.on-sidebar-beside-content(any) {
