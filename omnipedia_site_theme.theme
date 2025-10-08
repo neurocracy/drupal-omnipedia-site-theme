@@ -85,10 +85,14 @@ function omnipedia_site_theme_preprocess_html(array &$variables): void {
  */
 function omnipedia_site_theme_preprocess_page(array &$variables): void {
 
-  /** @var bool */
-  $variables['omnipedia_is_search_page'] = \Drupal::service(
-    'omnipedia.wiki_search'
-  )->isCurrentRouteSearchPage();
+  if (\Drupal::hasService('omnipedia.wiki_search') === true) {
+
+    /** @var bool */
+    $variables['omnipedia_is_search_page'] = \Drupal::service(
+      'omnipedia.wiki_search'
+    )->isCurrentRouteSearchPage();
+
+  }
 
   \Drupal::classResolver(PageRegionPlaceholdersPreprocess::class)->preprocess(
     $variables
