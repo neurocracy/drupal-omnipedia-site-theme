@@ -53,10 +53,14 @@ function omnipedia_site_theme_theme_suggestions_html_alter(
  */
 function omnipedia_site_theme_preprocess_html(array &$variables): void {
 
-  /** @var bool */
-  $variables['omnipedia_is_main_page'] = \Drupal::service(
-    'omnipedia_main_page.route',
-  )->isCurrent();
+  if (\Drupal::hasService('omnipedia_main_page.route') === true) {
+
+    /** @var bool */
+    $variables['omnipedia_is_main_page'] = \Drupal::service(
+      'omnipedia_main_page.route',
+    )->isCurrent();
+
+  }
 
   \Drupal::classResolver(SiteBrandingCustomProperties::class)->preprocessHtml(
     $variables
@@ -265,7 +269,13 @@ function omnipedia_site_theme_preprocess_block__system_branding_block(
 
   \Drupal::classResolver(SiteBrandingInliner::class)->alter($variables);
 
-  \Drupal::classResolver(SiteBrandingMainPageLinks::class)->alter($variables);
+  if (\Drupal::service('module_handler')->moduleExists(
+    'omnipedia_main_page',
+  ) === true) {
+
+    \Drupal::classResolver(SiteBrandingMainPageLinks::class)->alter($variables);
+
+  }
 
 }
 
