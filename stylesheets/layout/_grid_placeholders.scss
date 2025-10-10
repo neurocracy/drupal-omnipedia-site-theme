@@ -6,7 +6,8 @@
 @use 'base:layout/sidebars' as layout-sidebars;
 @use 'sass/helpers/layout';
 
-@include layout-sidebars.on-sidebar-beside-content(both) {
+@mixin placeholders {
+
   @include layout.use-grid {
 
     // These need to not register pointer clicks/taps as they overlap.
@@ -54,4 +55,12 @@
     }
 
   }
+
+}
+
+@include layout-sidebars.on-sidebar-beside-content(first) {
+  @include placeholders;
+}
+@include layout-sidebars.on-sidebar-beside-content(both) {
+  @include placeholders;
 }

@@ -14,12 +14,32 @@
 /// The Omnipedia grid definition in compact layout (narrow screens).
 ///
 @mixin grid-compact {
+
   grid-template-areas:
     'branding       menu-primary'
     'main-content   main-content'
-    'sidebar-first  sidebar-first'
-    'sidebar-second sidebar-second'
     'footer         footer';
+
+  @include layout-sidebars.on-sidebar(both) {
+
+    grid-template-areas:
+      'branding       menu-primary'
+      'main-content   main-content'
+      'sidebar-first  sidebar-first'
+      'sidebar-second sidebar-second'
+      'footer         footer';
+
+  }
+
+  @include layout-sidebars.on-sidebar(first) {
+
+    grid-template-areas:
+      'branding       menu-primary'
+      'main-content   main-content'
+      'sidebar-first  sidebar-first'
+      'footer         footer';
+
+  }
 
   grid-template-rows:
     minmax(
@@ -37,28 +57,49 @@
   // This adds a bigger gap between the site branding and header items to ensure
   // they read as separate elements.
   grid-column-gap: layout-config.$header-distinct-gap;
+
 }
 
 ///
 /// The Omnipedia grid definition on wider screens.
 ///
 @mixin grid-wide {
-  grid-template-areas:
-    'branding       menu-primary  ....'
-    'branding       main-content  sidebar-second'
-    'sidebar-first  main-content  sidebar-second'
-    '....           footer        ....';
 
-  grid-template-rows:
-    layout-config.$header-row-height
-    min-content
-    1fr
-    min-content;
+  @include layout-sidebars.on-sidebar-beside-content(both) {
+
+    grid-template-areas:
+      'branding       menu-primary  ....'
+      'branding       main-content  sidebar-second'
+      'sidebar-first  main-content  sidebar-second'
+      '....           footer        ....';
+
+  }
+
+  @include layout-sidebars.on-sidebar-beside-content(first) {
+
+    grid-template-areas:
+      'branding       menu-primary'
+      'branding       main-content'
+      'sidebar-first  main-content'
+      '....           footer';
+
+  }
+
+  @include layout-sidebars.on-sidebar-beside-content(any) {
+
+    grid-template-rows:
+      layout-config.$header-row-height
+      min-content
+      1fr
+      min-content;
+
+  }
+
 }
 
 // Common stuff regardless of whether subgrid is supported.
 .layout-container {
-  @include breakpoint.on('<layout-with-both-sidebars') {
+  @include breakpoint.on('<layout-with-one-sidebar') {
     padding-top: layout-config.$gutter;
   }
 
@@ -92,6 +133,9 @@
     @include layout-sidebars.on-sidebar-beside-content(both) {
       display: none;
     }
+    @include layout-sidebars.on-sidebar-beside-content(first) {
+      display: none;
+    }
 
   }
 
@@ -100,15 +144,31 @@
     grid-area: branding;
 
     @include layout-sidebars.on-sidebar-beside-content(both) {
+
+      grid-column-start:  branding;
+      grid-column-end:    sidebar-first-end;
+
       // This has to overlap the first sidebar region entirely for the
       // placeholder of that sidebar to be accurate.
       grid-row-end: sidebar-first-end;
+
+    }
+
+    @include layout-sidebars.on-sidebar-beside-content(first) {
+
+      grid-column-start:  branding;
+      grid-column-end:    sidebar-first-end;
+
+      // This has to overlap the first sidebar region entirely for the
+      // placeholder of that sidebar to be accurate.
+      grid-row-end: sidebar-first-end;
+
     }
 
   }
 
   .region-primary-menu {
-    @include breakpoint.on('<layout-with-both-sidebars') {
+    @include breakpoint.on('<layout-with-one-sidebar') {
       &,
       .block,
       .omnipedia-header {
@@ -120,7 +180,7 @@
 
     // Required to override ambientimpact_base/stylesheets/layout/_output.scss
     // when that applies its wider screen layout grid.
-    @include layout-sidebars.on-sidebar-beside-content(both) {
+    @include layout-sidebars.on-sidebar-beside-content(any) {
       grid-area: menu-primary;
     }
   }
@@ -132,10 +192,28 @@
       grid-row-start: branding;
     }
   }
+  @include layout-sidebars.on-sidebar-beside-content(first) {
+    // This has to overlap the branding region entirely for the placeholder of
+    // the header to be accurate.
+    .layout-sidebar-first {
+      grid-row-start: branding;
+    }
+  }
 
   footer[role='contentinfo'] {
     grid-area: footer;
   }
+
+  // Ensure this overrides the .layout-container > * that also uses sidebar body
+  // classes which would otherwise have a higher specificity than the above.
+  @include layout-sidebars.on-sidebar-beside-content(any) {
+
+    footer[role='contentinfo'] {
+      grid-area: footer;
+    }
+
+  }
+
 }
 
 // If subgrid is supported, use it to lay out the site layout, allowing the grid
@@ -171,7 +249,7 @@
     }
 
     .region-primary-menu {
-      @include breakpoint.on('<layout-with-both-sidebars') {
+      @include breakpoint.on('<layout-with-one-sidebar') {
         &,
         .block,
         .omnipedia-header,
@@ -188,10 +266,14 @@
       }
     }
 
-    @include layout-sidebars.on-sidebar-beside-content(both) {
-      .layout-container {
-        @include grid-wide;
-      }
+    .layout-container {
+      @include grid-wide;
+    }
+
+    header[role='banner'] {
+    }
+
+    @include layout-sidebars.on-sidebar-beside-content(any) {
 
       main[role='main'] {
         grid-row-start: branding;
@@ -228,9 +310,7 @@
 
       @include grid-compact;
 
-      @include layout-sidebars.on-sidebar-beside-content(both) {
-        @include grid-wide;
-      }
+      @include grid-wide;
 
       margin-left:  auto;
       margin-right: auto;
@@ -247,7 +327,8 @@
     }
 
     .region-primary-menu {
-      @include breakpoint.on('<layout-with-both-sidebars') {
+
+      @include breakpoint.on('<layout-with-one-sidebar') {
         &,
         .block {
           display: grid;
@@ -257,15 +338,30 @@
           grid-row-gap: 0;
         }
       }
+
     }
 
-    @include layout-sidebars.on-sidebar-beside-content(both) {
+    main[role='main'] {
+      @include grid-wide;
+    }
+
+    @include layout-sidebars.on-sidebar-beside-content(first) {
+
+      main[role='main'] {
+
+        // Required to ensure we don't accidentally create a third column and an
+        // associated column gap on the side.
+        grid-column-end: main-content;
+
+      }
+
+    }
+
+    @include layout-sidebars.on-sidebar-beside-content(any) {
 
       main[role='main'] {
 
         display: grid;
-
-        @include grid-wide;
 
         grid-row-start: branding;
 

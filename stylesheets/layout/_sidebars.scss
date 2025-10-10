@@ -59,7 +59,7 @@
   // Indicate to the sidebars JavaScript that sidebars are not off-canvas.
   --omnipedia-sidebars-off-canvas: false;
 
-  @include breakpoint.on('<layout-with-both-sidebars') {
+  @include breakpoint.on('<layout-with-one-sidebar') {
     // Indicate to the sidebars JavaScript that sidebars are off-canvas.
     --omnipedia-sidebars-off-canvas: true;
 
@@ -179,7 +179,7 @@
     }
   }
 
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
 
     // Make sure the closed target cannot affect layout on larger screens.
     // Chrome seems to have some issues with this but Firefox does not.
@@ -210,11 +210,22 @@
 }
 
 .region-sidebar-second {
-  @include layout-sidebars.on-sidebar-beside-content(both) {
-    // This adjusts the top of the first block's title with the adjacent main
-    // content box .
+
+  // Adjust the top of the first block's title with the adjacent main content
+  // box.
+  @mixin block-top-adjust {
+
     .block:first-child .block__title {
       margin-top: -0.55em;
     }
+
   }
+
+  @include layout-sidebars.on-sidebar-beside-content(second) {
+    @include block-top-adjust;
+  }
+  @include layout-sidebars.on-sidebar-beside-content(both) {
+    @include block-top-adjust;
+  }
+
 }

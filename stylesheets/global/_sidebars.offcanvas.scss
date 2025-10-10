@@ -45,7 +45,7 @@ $shadow-on-dark:
 }
 
 .layout-sidebars {
-  @include breakpoint.on('<layout-with-both-sidebars') {
+  @include breakpoint.on('<layout-with-one-sidebar') {
 
     will-change: transform, opacity;
 

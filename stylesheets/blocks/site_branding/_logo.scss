@@ -68,7 +68,7 @@
     // to be used, so we clip the link as a circle to attempt to make the hit
     // box a fit the logo rather than a square. Note that care needs to be taken
     // to avoid clipping off the focus outline, hence the calc().
-    @include breakpoint.on('>=layout-with-both-sidebars') {
+    @include breakpoint.on('>=layout-with-one-sidebar') {
       clip-path: circle(calc(
         50% + #{outline.$outline-width} + #{outline.$outline-offset}
       ) at 50% 50%);
@@ -185,7 +185,7 @@
       // then using the shimmer as a sort of reveal on pin. This also triggers
       // when the header has been hidden at least once by an immerse event and
       // is shown again.
-      @include breakpoint.on('<layout-with-both-sidebars') {
+      @include breakpoint.on('<layout-with-one-sidebar') {
 
         header[role='banner'].headroom--unpinned-once &,
         header[role='banner'].header-immersed-once & {

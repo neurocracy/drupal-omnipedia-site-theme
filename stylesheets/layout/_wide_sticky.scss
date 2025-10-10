@@ -6,7 +6,7 @@
 @use 'base:layout/sidebars' as layout-sidebars;
 @use 'sass/helpers/layout';
 
-@include layout-sidebars.on-sidebar-beside-content(both) {
+@include layout-sidebars.on-sidebar-beside-content(any) {
   @include layout.use-grid {
 
     .region-header,

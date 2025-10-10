@@ -6,7 +6,7 @@
 @use 'sass/helpers/colour';
 @use 'sass/helpers/layout';
 @use '../../layout/config' as layout-config;
-@use 'base:layout/breakpoints' as layout-breakpoints;
+@use 'base:layout/sidebars' as layout-sidebars;
 
 @include layout.use-grid {
 
@@ -29,7 +29,7 @@
     // When sidebars are beside the content column, display as block. This will
     // invalidate all grid-*/align-*/justify-* properties, allowing the branding
     // to be stacked vertically and saving us a lot of work.
-    @include breakpoint.on('>=layout-with-both-sidebars') {
+    @include layout-sidebars.on-sidebar-beside-content(any) {
       display: block;
 
       height: auto;
@@ -91,7 +91,7 @@
   }
 }
 
-@include breakpoint.on('>=layout-with-both-sidebars') {
+@include layout-sidebars.on-sidebar-beside-content(any) {
 
   // Add margins between the logo, name, and slogan when stacked vertically.
   .site-name,

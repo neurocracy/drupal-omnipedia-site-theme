@@ -86,11 +86,11 @@
       margin-left:  0;
       margin-right: 0;
 
-      // The menu link is hidden if sidebars are beside the content column.
+      // The menu link is hidden if any sidebars are beside the content column.
       //
       // @todo Could showing this still be useful for keyboard navigation on
       //   wide screens?
-      @include layout-sidebars.on-sidebar-beside-content(both) {
+      @include layout-sidebars.on-sidebar-beside-content(any) {
         display: none;
       }
 

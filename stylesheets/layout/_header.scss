@@ -54,7 +54,7 @@ $stacking-order: shadow, background, border, content;
 }
 
 header[role='banner'] {
-  @include breakpoint.on('<layout-with-both-sidebars') {
+  @include breakpoint.on('<layout-with-one-sidebar') {
     @include headroom-top;
   }
 }
@@ -118,7 +118,7 @@ header[role='banner'] .region-header {
 }
 
 .region-primary-menu {
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     // Same as above, but on wide screens.
     top: calc(var(--drupal-displace-offset-top, 0em) + #{layout-config.$gap}) !important;
 
@@ -135,6 +135,12 @@ header[role='banner'] {
   // The header is reverted to static positioning on wider screens and Headroom
   // transforms are set to zero.
   @include layout-sidebars.on-sidebar-beside-content(both) {
+    position: static;
+
+    --headroom-translate-pinned:    0;
+    --headroom-translate-unpinned:  0;
+  }
+  @include layout-sidebars.on-sidebar-beside-content(first) {
     position: static;
 
     --headroom-translate-pinned:    0;
@@ -180,9 +186,10 @@ header[role='banner'] {
     }
 
     // These are disabled when the site branding is in the sidebar.
-    @include layout-sidebars.on-sidebar-beside-content(both) {
+    @include layout-sidebars.on-sidebar-beside-content(any) {
       display: none;
     }
+
   }
 }
 
@@ -199,7 +206,7 @@ header[role='banner'] {
   display: none;
 
   // Displayed in non-compact mode.
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     display: block;
   }
 
@@ -211,7 +218,7 @@ header[role='banner'] {
 
   grid-area: menu-primary;
 
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     position: absolute;
 
     left:   0;
@@ -234,9 +241,10 @@ header[role='banner'] {
   right:  0;
 
   // This has no use when the site branding is in the sidebar.
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     display: none;
   }
+
 }
 
 .search-anchor {
@@ -263,7 +271,7 @@ header[role='banner'] {
   }
 
   // This has no use when the site branding is in the sidebar.
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     display: none;
 
     // Indicate to the header JavaScript that the anchor is hidden.
@@ -395,9 +403,10 @@ header[role='banner'] {
     z-index: list.index($stacking-order, background);
 
     // This has no use when the site branding is in the sidebar.
-    @include layout-sidebars.on-sidebar-beside-content(both) {
+    @include layout-sidebars.on-sidebar-beside-content(any) {
       display: none;
     }
+
   }
 }
 

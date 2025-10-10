@@ -22,7 +22,7 @@ header[role='banner'],
 
 }
 
-@include layout-sidebars.on-sidebar-beside-content(both) {
+@include layout-sidebars.on-sidebar-beside-content(any) {
 
   .region-primary-menu {
     &:not(.headroom)::before,

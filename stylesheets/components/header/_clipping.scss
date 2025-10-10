@@ -9,7 +9,7 @@
 @use '../../variables/general' as general-variables;
 
 .region-primary-menu {
-  @include layout-sidebars.on-sidebar-beside-content(both) {
+  @include layout-sidebars.on-sidebar-beside-content(any) {
     ///
     /// Amount of extra vertical space below to prevent clipping the shadow.
     ///
