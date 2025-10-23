@@ -2,8 +2,24 @@
 //   Pitch component
 // -----------------------------------------------------------------------------
 
+@use '../../stylesheets/variables/colours'; // Configure colours.
+@use 'link/link.var' as link-var;
+@use 'sass/helpers/colour';
+
 .region-content {
 
   font-size: 125%;
+
+}
+
+.omnipedia-pitch-highlight {
+
+  color: #{link-var.$normal-colour-on-light};
+
+  @include colour.on-dark-scheme {
+
+    color: #{link-var.$normal-colour-on-dark};
+
+  }
 
 }
