@@ -162,14 +162,24 @@ AmbientImpact.addComponent('OmnipediaSiteThemeHeaderState', function(
       // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/22
       .on(`click.${eventNamespace}`, function(event) {
 
-        if (
-          !headerState.isCompact() ||
-          !headerState.isSearchOpen() ||
-          // This ensures that any clicks on or inside of the search form or
-          // search anchor do not close the search.
-          $(event.target).closest($searchForm.add($searchAnchor)).length > 0
-        ) {
+        // Ensure any errors due to missing elements or other unforeseen things
+        // don't prevent other event handlers being triggered.
+        try {
+
+          if (
+            !headerState.isCompact() ||
+            !headerState.isSearchOpen() ||
+            // This ensures that any clicks on or inside of the search form or
+            // search anchor do not close the search.
+            $(event.target).closest($searchForm.add($searchAnchor)).length > 0
+          ) {
+            return;
+          }
+
+        } catch (error) {
+
           return;
+
         }
 
         headerState.hideSearch();
