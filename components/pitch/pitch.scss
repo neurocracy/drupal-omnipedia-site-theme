@@ -7,7 +7,8 @@
 @use 'sass/helpers/colour';
 @use 'sass/helpers/hide';
 
-.region-content {
+.region-content,
+.offcanvas-panel {
 
   font-size: 125%;
 
