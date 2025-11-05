@@ -5,6 +5,7 @@
 @use '../../stylesheets/variables/colours'; // Configure colours.
 @use 'link/link.var' as link-var;
 @use 'sass/helpers/colour';
+@use 'sass/helpers/hide';
 
 .region-content {
 
@@ -21,5 +22,14 @@
     color: #{link-var.$normal-colour-on-dark};
 
   }
+
+}
+
+// Since we're upping the font size as much as we are, content pop-up titles
+// take up a good deal more space. Remove them entirely from display for the
+// pitch.
+.content-popup__title {
+
+  @include hide.me;
 
 }
