@@ -14,7 +14,97 @@
 
 }
 
-.omnipedia-pitch-highlight {
+// @todo This could cause legitimate content to be hidden; remove during
+//   rendering intead.
+p:has(.omnipedia-pitch:empty) {
+  display: none;
+}
+
+.omnipedia-pitch-title {
+
+  display: grid;
+
+  justify-content: center;
+
+  text-align: center;
+
+  font-size: 120%;
+
+  &__title, &__subtitle {
+
+    margin-block: 0;
+
+    font-weight: 300;
+
+  }
+
+  &__title {
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    font-style: italic;
+  }
+
+}
+
+.omnipedia-pitch-press {
+
+  font-style: italic;
+
+  text-align: center;
+
+  &__quote {
+
+    &::before, &::after {
+
+      // Override base theme.
+      display: inline;
+
+      position: static;
+
+    }
+
+    padding-inline: 0 !important;
+
+    &::before {
+
+      content: "“";
+
+      // Override base theme.
+      background-image: none;
+
+    }
+
+    &::after {
+
+      content: "”";
+
+      // Override base theme.
+      background-color: transparent;
+      margin-inline: 0;
+
+    }
+
+  }
+
+  &__quote, &__author {
+    display: inline;
+  }
+
+  &__author::before {
+    content: '(';
+  }
+
+  &__author::after {
+    content: ')';
+  }
+
+}
+
+.omnipedia-pitch-highlight,
+.omnipedia-pitch-press,
+.omnipedia-pitch-title {
 
   color: #{link-var.$normal-colour-on-light};
 
