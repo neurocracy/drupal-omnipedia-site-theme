@@ -5,3 +5,6 @@ props:
   type: object
   additionalProperties: false
   properties: {}
+libraryOverrides:
+  dependencies:
+    - ambientimpact_base/layout_properties

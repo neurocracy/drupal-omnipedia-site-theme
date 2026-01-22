@@ -54,6 +54,10 @@ p:has(.omnipedia-pitch:empty) {
 
   text-align: center;
 
+  * + & {
+    margin-block-start: var(--content-item-spacing-small);
+  }
+
   &__quote {
 
     &::before, &::after {
