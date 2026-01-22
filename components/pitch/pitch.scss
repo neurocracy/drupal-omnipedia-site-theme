@@ -6,6 +6,8 @@
 @use 'link/link.var' as link-var;
 @use 'sass/helpers/colour';
 @use 'sass/helpers/hide';
+@use 'sass/helpers/breakpoint';
+@use 'infobox/_infobox' as infobox;
 
 .region-content,
 .offcanvas-panel {
@@ -137,5 +139,13 @@ p:has(.omnipedia-pitch:empty) {
 .content-popup__title {
 
   @include hide.me;
+
+}
+
+.omnipedia-infobox {
+
+  @include breakpoint.on('>=omnipedia-infobox-floated') {
+    max-width: 25%;
+  }
 
 }
