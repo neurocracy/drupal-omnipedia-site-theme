@@ -107,7 +107,7 @@ libraries-extend:
   omnipedia_content/component.main_page:
     - omnipedia_site_theme/omnipedia_main_page
 
-  omnipedia_content/component.pitch:
+  omnipedia_pitch/component.pitch:
     - core/components.omnipedia_site_theme--pitch
 
   omnipedia_content/component.reference:
