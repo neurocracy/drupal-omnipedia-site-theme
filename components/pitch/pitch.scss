@@ -48,6 +48,17 @@ p:has(.omnipedia-pitch:empty) {
 
 }
 
+// Hide the page title when the pitch title is found on the page.
+.layout-content:has(.omnipedia-pitch-title) .block-page-title-block {
+
+  display: none;
+
+  & + .block-system-main-block {
+    margin-block-start: 0 !important;
+  }
+
+}
+
 .omnipedia-pitch-press {
 
   font-style: italic;
