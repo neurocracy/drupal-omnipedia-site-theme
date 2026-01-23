@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 @use '../../stylesheets/variables/colours'; // Configure colours.
+@use '../../stylesheets/typography/config' as typography-config;
 @use 'link/link.var' as link-var;
 @use 'sass/helpers/colour';
 @use 'sass/helpers/hide';
@@ -14,6 +15,10 @@
 
   font-size: 125%;
 
+}
+
+h4, h5, h6 {
+  font-family: typography-config.$heading-font-stack;
 }
 
 // @todo This could cause legitimate content to be hidden; remove during
