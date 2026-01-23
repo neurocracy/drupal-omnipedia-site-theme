@@ -17,8 +17,13 @@
 
 }
 
-h4, h5, h6 {
-  font-family: typography-config.$heading-font-stack;
+// For specificity.
+.layout-content:has(.omnipedia-pitch) {
+
+  h4, h5, h6 {
+    font-family: typography-config.$heading-font-stack;
+  }
+
 }
 
 // @todo This could cause legitimate content to be hidden; remove during
