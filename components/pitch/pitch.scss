@@ -9,6 +9,7 @@
 @use 'sass/helpers/hide';
 @use 'sass/helpers/breakpoint';
 @use 'infobox/_infobox' as infobox;
+@use 'base:elements/list';
 
 .region-content,
 .offcanvas-panel {
@@ -162,6 +163,50 @@ p:has(.omnipedia-pitch:empty) {
 
   @include breakpoint.on('>=omnipedia-infobox-floated') {
     max-width: 25%;
+  }
+
+}
+
+.omnipedia-pitch-media-grid {
+
+  &__list {
+
+    @include list.unlisted;
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(max(10em, 30%), 1fr));
+
+    gap: var(--layout-gap);
+
+  }
+
+  &__list-item {
+
+    display: grid;
+
+    margin: 0 !important;
+
+  }
+
+  // Note that we're intentionally overriding any aligning/floating on media.
+  .omnipedia-media {
+
+    float: none;
+    margin: 0;
+    max-width: none;
+
+    // This is set to display: table; which doesn't expand the full width by
+    // default.
+    &__media.caption {
+      width: 100%;
+    }
+
+    // Override the inline max-width.
+    .field__item {
+      max-width: none !important;
+    }
+
   }
 
 }
