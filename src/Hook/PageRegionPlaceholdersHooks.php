@@ -2,26 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Render\Element;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Page region placeholders preprocess class.
+ * Page region placeholders hooks.
  */
-class PageRegionPlaceholdersPreprocess implements ContainerInjectionInterface {
+class PageRegionPlaceholdersHooks {
 
   /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static();
-  }
-
-  /**
-   * \template_preprocess_page() callback.
+   * Prepares variables for the page template.
    *
    * This builds the header and first sidebar region placeholders, duplicating
    * content between the two.
@@ -29,7 +22,8 @@ class PageRegionPlaceholdersPreprocess implements ContainerInjectionInterface {
    * @param array &$variables
    *   Variables for the template.
    */
-  public function preprocess(array &$variables): void {
+  // #[Hook('preprocess_page')]
+  public function preprocessPage(array &$variables): void {
 
     /** @var string[] Header child element keys. */
     $headerKeys = Element::children($variables['page']['header']);

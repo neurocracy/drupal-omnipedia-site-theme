@@ -8,8 +8,8 @@ use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Hook\Attribute\Hook;
+use Drupal\omnipedia_site_theme\Hook\PageRegionPlaceholdersHooks;
 use Drupal\omnipedia_site_theme\Hook\WikiSearchHooks;
-use Drupal\omnipedia_site_theme\PageRegionPlaceholdersPreprocess;
 
 /**
  * Page hooks.
@@ -46,8 +46,8 @@ class PageHooks implements ContainerInjectionInterface {
   public function preprocessPage(array &$variables): void {
 
     $this->classResolver->getInstanceFromDefinition(
-      PageRegionPlaceholdersPreprocess::class,
-    )->preprocess($variables);
+      PageRegionPlaceholdersHooks::class,
+    )->preprocessPage($variables);
 
     $this->classResolver->getInstanceFromDefinition(
       WikiSearchHooks::class,
