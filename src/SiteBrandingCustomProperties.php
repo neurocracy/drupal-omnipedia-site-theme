@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Drupal\omnipedia_site_theme;
 
 use Drupal\ambientimpact_core\Utility\AttributeHelper;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Omnipedia site branding CSS custom properties output.
  */
 class SiteBrandingCustomProperties implements ContainerInjectionInterface {
+
+  use AutowireTrait;
 
   /**
    * Branding maximum width custom property name.
@@ -62,16 +64,6 @@ class SiteBrandingCustomProperties implements ContainerInjectionInterface {
     protected readonly ThemeHandlerInterface $themeHandler,
     protected readonly ThemeManagerInterface $themeManager,
   ) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('theme_handler'),
-      $container->get('theme.manager'),
-    );
-  }
 
   /**
    * Get the active theme branding custom properties.

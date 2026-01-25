@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\omnipedia_site_theme;
 
 use Drupal\ambientimpact_core\Utility\Html;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\RendererInterface;
@@ -17,6 +18,8 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
 
+  use AutowireTrait;
+
   /**
    * Constructor; saves dependencies.
    *
@@ -24,15 +27,6 @@ class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
    *   The Drupal renderer service.
    */
   public function __construct(protected readonly RendererInterface $renderer) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('renderer'),
-    );
-  }
 
   /**
    * \hook_theme() callback.

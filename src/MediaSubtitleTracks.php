@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\omnipedia_site_theme;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Template\Attribute;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Media entity subtitle builder.
@@ -21,6 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   class unnecessary when implemented.
  */
 class MediaSubtitleTracks implements ContainerInjectionInterface {
+
+  use AutowireTrait;
 
   /**
    * The name of the media entity subtitles field.
@@ -45,15 +47,6 @@ class MediaSubtitleTracks implements ContainerInjectionInterface {
   public function __construct(
     protected readonly LanguageManagerInterface $languageManager,
   ) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('language_manager'),
-    );
-  }
 
   /**
    * \template_preprocess_media() callback.
