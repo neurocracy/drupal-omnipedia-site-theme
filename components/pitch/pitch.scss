@@ -45,6 +45,11 @@ p:has(.omnipedia-pitch:empty) {
 
   text-align: center;
 
+  // This would otherwise be preferred as a margin-block-start on the element
+  // after this, but it's less predictable in this case as it can be any
+  // element and we need a specific gap.
+  padding-block-end: var(--content-item-spacing-small);
+
   &__title, &__subtitle {
 
     margin-block: 0;
