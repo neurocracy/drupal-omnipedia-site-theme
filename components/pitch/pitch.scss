@@ -185,6 +185,10 @@ p:has(.omnipedia-pitch:empty) {
 
     display: grid;
 
+    // We want media to be centre-aligned within their columns, using their
+    // image max-widths rather than expanding the full width of the columns.
+    justify-content: center;
+
     margin: 0 !important;
 
   }
@@ -202,9 +206,8 @@ p:has(.omnipedia-pitch:empty) {
       width: 100%;
     }
 
-    // Override the inline max-width.
-    .field__item {
-      max-width: none !important;
+    figcaption {
+      text-align: center;
     }
 
   }
