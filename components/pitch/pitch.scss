@@ -21,6 +21,10 @@
 // For specificity.
 .layout-content:has(.omnipedia-pitch) {
 
+  h3 {
+    text-align: center;
+  }
+
   h4, h5, h6 {
     font-family: typography-config.$heading-font-stack;
   }
