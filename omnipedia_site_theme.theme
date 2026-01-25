@@ -6,11 +6,11 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Render\Element;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
+use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\MaintenancePage;
 use Drupal\omnipedia_site_theme\MediaSubtitleTracks;
 use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
-use Drupal\omnipedia_site_theme\PageRegionPlaceholdersPreprocess;
 use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
 
 /**
@@ -72,31 +72,12 @@ function omnipedia_site_theme_preprocess_html(array &$variables): void {
 
 /**
  * Prepares variables for the page template.
- *
- * - Adds the 'omnipedia_is_search_page' variable.
- *
- * - Builds header and first sidebar region placeholders.
- *
- * Default template: page.html.twig.
- *
- * @see \Drupal\omnipedia_search\Service\WikiSearchInterface::isCurrentRouteSearchPage()
- *
- * @see \Drupal\omnipedia_site_theme\PageRegionPlaceholdersPreprocess::preprocess()
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_page(array &$variables): void {
 
-  if (\Drupal::hasService('omnipedia.wiki_search') === true) {
-
-    /** @var bool */
-    $variables['omnipedia_is_search_page'] = \Drupal::service(
-      'omnipedia.wiki_search'
-    )->isCurrentRouteSearchPage();
-
-  }
-
-  \Drupal::classResolver(PageRegionPlaceholdersPreprocess::class)->preprocess(
-    $variables
-  );
+  \Drupal::classResolver(PageHooks::class)->preprocessPage($variables);
 
 }
 
