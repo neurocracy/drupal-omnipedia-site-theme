@@ -6,12 +6,12 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Render\Element;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
+use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\MaintenancePage;
 use Drupal\omnipedia_site_theme\MediaSubtitleTracks;
 use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
-use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
 
 /**
  * Implements \hook_theme().
@@ -30,43 +30,27 @@ function omnipedia_site_theme_theme(
 
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
- *
- * This adds 'html__extended' as a template suggestion so that we can extend
- * html.html.twig without re-implementing the whole template.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_theme_suggestions_html_alter(
   array &$suggestions, array $variables
 ): void {
-  $suggestions[] = 'html__extended';
+
+  \Drupal::classResolver(HtmlHooks::class)->themeSuggestionsHtmlAlter(
+    $suggestions, $variables,
+  );
+
 }
 
 /**
  * Prepares variables for HTML document templates.
- *
- * This adds the 'omnipedia_is_main_page' variable.
- *
- * Default template: html.html.twig.
- *
- * @see \Drupal\omnipedia_main_page\Service\MainPageRouteInterface::isCurrent()
- *
- * @see \Drupal\omnipedia_site_theme\MaintenancePage::preprocessHtml()
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_html(array &$variables): void {
 
-  if (\Drupal::hasService('omnipedia_main_page.route') === true) {
-
-    /** @var bool */
-    $variables['omnipedia_is_main_page'] = \Drupal::service(
-      'omnipedia_main_page.route',
-    )->isCurrent();
-
-  }
-
-  \Drupal::classResolver(SiteBrandingCustomProperties::class)->preprocessHtml(
-    $variables
-  );
-
-  \Drupal::classResolver(MaintenancePage::class)->preprocessHtml($variables);
+  \Drupal::classResolver(HtmlHooks::class)->preprocessHtml($variables);
 
 }
 
