@@ -5,33 +5,18 @@ declare(strict_types=1);
 namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Prepares variables for the eu_cookie_compliance_popup_info.html.twig template.
- *
- * If the 'more_info_button' variable is found, this sets the following and
- * unsets 'more_info_button' so that a link can be output instead:
- *
- * - 'privacy_policy_link_url': A \Drupal\Core\Url object pointing to the
- *   configured privacy policy URL.
- *
- * - 'privacy_policy_link_title': The text content to use for the privacy policy
- *   link. This is taken from the value of 'more_info_button'.
- *
- * - 'privacy_policy_link_attributes': A \Drupal\Core\Template\Attribute object,
- *   optionally containing 'target' => '_blank' if the privacy policy is
- *   configured to open in a new window or tab.
- *
- * @see https://www.drupal.org/project/eu_cookie_compliance/issues/3222159
- *   Issue regarding the "More info" / privacy policy button being better suited
- *   as a link for accessibility.
+ * EU Cookie Compliance pop-up hooks.
  */
 class EuCookieCompliancePopUpHooks implements ContainerInjectionInterface {
+
+  use AutowireTrait;
 
   /**
    * Constructor; saves dependencies.
@@ -44,16 +29,24 @@ class EuCookieCompliancePopUpHooks implements ContainerInjectionInterface {
   ) {}
 
   /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-    );
-  }
-
-  /**
-   * \template_preprocess_eu_cookie_compliance_popup_info() callback.
+   * Prepares variables for the eu_cookie_compliance_popup_info template.
+   *
+   * If the 'more_info_button' variable is found, this sets the following and
+   * unsets 'more_info_button' so that a link can be output instead:
+   *
+   * - 'privacy_policy_link_url': A \Drupal\Core\Url object pointing to the
+   *   configured privacy policy URL.
+   *
+   * - 'privacy_policy_link_title': The text content to use for the privacy
+   *   policy link. This is taken from the value of 'more_info_button'.
+   *
+   * - 'privacy_policy_link_attributes': A \Drupal\Core\Template\Attribute
+   *   object, optionally containing 'target' => '_blank' if the privacy policy
+   *   is configured to open in a new window or tab.
+   *
+   * @see https://www.drupal.org/project/eu_cookie_compliance/issues/3222159
+   *   Issue regarding the "More info" / privacy policy button being better
+   *   suited as a link for accessibility.
    *
    * @param array &$variables
    *   Variables for the template.
