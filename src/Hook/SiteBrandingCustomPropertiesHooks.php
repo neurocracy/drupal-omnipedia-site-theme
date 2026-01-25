@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\ambientimpact_core\Utility\AttributeHelper;
 use Drupal\Core\DependencyInjection\AutowireTrait;
@@ -11,9 +11,9 @@ use Drupal\Core\Extension\ThemeHandlerInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
 
 /**
- * Omnipedia site branding CSS custom properties output.
+ * Omnipedia site branding CSS custom properties hooks.
  */
-class SiteBrandingCustomProperties implements ContainerInjectionInterface {
+class SiteBrandingCustomPropertiesHooks implements ContainerInjectionInterface {
 
   use AutowireTrait;
 
@@ -105,11 +105,12 @@ class SiteBrandingCustomProperties implements ContainerInjectionInterface {
   }
 
   /**
-   * \template_preprocess_html() method.
+   * Prepares variables for HTML document templates.
    *
    * @param array &$variables
-   *   Variables from \omnipedia_site_theme_preprocess_html().
+   *   Variables from for an HTML document template.
    */
+  // #[Hook('preprocess_html')]
   public function preprocessHtml(array &$variables): void {
 
     /** @var int[] */

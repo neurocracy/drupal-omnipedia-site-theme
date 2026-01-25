@@ -10,7 +10,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\omnipedia_site_theme\Hook\MainPageHooks;
 use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
-use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
+use Drupal\omnipedia_site_theme\Hook\SiteBrandingCustomPropertiesHooks;
 
 /**
  * HTML document element hooks.
@@ -70,7 +70,7 @@ class HtmlHooks implements ContainerInjectionInterface {
     )->preprocessHtml($variables);
 
     $this->classResolver->getInstanceFromDefinition(
-      SiteBrandingCustomProperties::class,
+      SiteBrandingCustomPropertiesHooks::class,
     )->preprocessHtml($variables);
 
   }
