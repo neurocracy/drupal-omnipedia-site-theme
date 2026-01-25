@@ -2,16 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\AutowireTrait;
+use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingInliner;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Omnipedia maintenance page customizations.
+ * Maintenance page hooks.
  *
  * @see \Drupal\Core\EventSubscriber\MaintenanceModeSubscriber
  *
@@ -23,12 +27,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @see maintenance-page.html.twig
  */
-class MaintenancePage implements ContainerInjectionInterface {
+class MaintenancePageHooks implements ContainerInjectionInterface {
+
+  use AutowireTrait;
 
   use StringTranslationTrait;
 
   /**
    * Constructor; saves dependencies.
+   *
+   * @param \Drupal\Core\DependencyInjection\ClassResolverInterface $classResolver
+   *   The class resolver service.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The Drupal configuration object factory service.
@@ -37,22 +46,13 @@ class MaintenancePage implements ContainerInjectionInterface {
    *   The Drupal string translation service.
    */
   public function __construct(
+    protected readonly ClassResolverInterface $classResolver,
     protected readonly ConfigFactoryInterface $configFactory,
-    protected readonly SiteBrandingInliner    $siteBrandingInliner,
-    protected $stringTranslation,
-  ) {}
+    TranslationInterface $stringTranslation,
+  ) {
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('class_resolver')->getInstanceFromDefinition(
-        SiteBrandingInliner::class
-      ),
-      $container->get('string_translation'),
-    );
+    $this->setStringTranslation($stringTranslation);
+
   }
 
   /**
@@ -80,11 +80,12 @@ class MaintenancePage implements ContainerInjectionInterface {
   }
 
   /**
-   * \template_preprocess_html() method.
+   * Prepares variables for HTML document templates.
    *
    * @param array &$variables
-   *   Variables from \omnipedia_site_theme_preprocess_html().
+   *   Variables from for an HTML document template.
    */
+  // #[Hook('preprocess_html')]
   public function preprocessHtml(array &$variables): void {
 
     /** @var bool */
@@ -113,15 +114,16 @@ class MaintenancePage implements ContainerInjectionInterface {
   }
 
   /**
-   * \template_preprocess_maintenance_page() method.
+   * Prepares variables for the maintenance page template.
    *
    * @param array &$variables
-   *   Variables from \omnipedia_site_theme_preprocess_maintenance_page().
+   *   Variables for the maintenance page template.
    *
    * @see \template_preprocess_maintenance_page()
    *
    * @see \Drupal\Core\EventSubscriber\MaintenanceModeSubscriber::onMaintenanceModeRequest()
    */
+  #[Hook('preprocess_maintenance_page')]
   public function preprocessMaintenancePage(array &$variables): void {
 
     /** @var string */
@@ -155,7 +157,9 @@ class MaintenancePage implements ContainerInjectionInterface {
 
     // $variables['#attached']['library'][] = 'omnipedia_site_theme/site_branding';
 
-    // $this->siteBrandingInliner->preprocess($variables);
+    // $this->classResolver->getInstanceFromDefinition(
+    //   SiteBrandingInliner::class,
+    // )->preprocess($variables);
 
   }
 

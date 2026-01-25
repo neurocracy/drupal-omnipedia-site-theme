@@ -9,7 +9,7 @@ use Drupal\Core\DependencyInjection\ClassResolverInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\omnipedia_site_theme\Hook\MainPageHooks;
-use Drupal\omnipedia_site_theme\MaintenancePage;
+use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
 
 /**
@@ -66,7 +66,7 @@ class HtmlHooks implements ContainerInjectionInterface {
     )->preprocessHtml($variables);
 
     $this->classResolver->getInstanceFromDefinition(
-      MaintenancePage::class,
+      MaintenancePageHooks::class,
     )->preprocessHtml($variables);
 
     $this->classResolver->getInstanceFromDefinition(

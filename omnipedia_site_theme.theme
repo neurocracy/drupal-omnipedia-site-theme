@@ -7,9 +7,9 @@ use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Render\Element;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
+use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
-use Drupal\omnipedia_site_theme\MaintenancePage;
 use Drupal\omnipedia_site_theme\MediaSubtitleTracks;
 use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
 
@@ -66,17 +66,17 @@ function omnipedia_site_theme_preprocess_page(array &$variables): void {
 }
 
 /**
- * Prepares variables for the page template when in maintenance mode.
- *
- * @see \Drupal\omnipedia_site_theme\MaintenancePage::preprocessMaintenancePage()
+ * Prepares variables for the maintenance page template.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_maintenance_page(
-  array &$variables
+  array &$variables,
 ): void {
 
-  \Drupal::classResolver(MaintenancePage::class)->preprocessMaintenancePage(
-    $variables
-  );
+  \Drupal::classResolver(
+    MaintenancePageHooks::class,
+  )->preprocessMaintenancePage($variables);
 
 }
 
