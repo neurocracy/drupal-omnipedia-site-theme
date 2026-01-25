@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\ambientimpact_core\Utility\AttributeHelper;
 use Drupal\ambientimpact_core\Utility\Html;
@@ -11,6 +11,7 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\DrupalKernelInterface;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -467,12 +468,13 @@ class SiteBrandingInliner implements ContainerInjectionInterface {
   }
 
   /**
-   * Alter site branding elements.
+   * Prepares variables for the 'system_branding_block' block template.
    *
    * @param array &$variables
-   *   Variables from the 'system_branding_block' block template.
+   *   Variables for the 'system_branding_block' block template.
    */
-  public function alter(array &$variables): void {
+  // #[Hook('preprocess_block__system_branding_block')]
+  public function preprocess(array &$variables): void {
     $this->alterLogo($variables);
   }
 

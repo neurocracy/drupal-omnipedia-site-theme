@@ -6,13 +6,12 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Render\Element;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
+use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\MaintenancePage;
 use Drupal\omnipedia_site_theme\MediaSubtitleTracks;
 use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
 use Drupal\omnipedia_site_theme\PageRegionPlaceholdersPreprocess;
 use Drupal\omnipedia_site_theme\SiteBrandingCustomProperties;
-use Drupal\omnipedia_site_theme\SiteBrandingInliner;
-use Drupal\omnipedia_site_theme\SiteBrandingMainPageLinks;
 
 /**
  * Implements \hook_theme().
@@ -256,31 +255,14 @@ function omnipedia_site_theme_preprocess_block__omnipedia_page_revision_history(
 
 /**
  * Prepares variables for the 'system_branding_block' block template.
- *
- * Attaches the 'omnipedia_site_theme/site_branding' library.
- *
- * @see \Drupal\omnipedia_site_theme\SiteBrandingInliner
- *   Attempts to inline the branding SVG elements so that their parts can be
- *   animated.
- *
- * @see \Drupal\omnipedia_site_theme\SiteBrandingMainPageLinks
- *   Alters the branding main page links.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_block__system_branding_block(
   array &$variables
 ): void {
 
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/site_branding';
-
-  \Drupal::classResolver(SiteBrandingInliner::class)->alter($variables);
-
-  if (\Drupal::service('module_handler')->moduleExists(
-    'omnipedia_main_page',
-  ) === true) {
-
-    \Drupal::classResolver(SiteBrandingMainPageLinks::class)->alter($variables);
-
-  }
+  \Drupal::classResolver(SiteBrandingBlockHooks::class)->preprocess($variables);
 
 }
 

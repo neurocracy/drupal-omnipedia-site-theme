@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\omnipedia_date\Service\TimelineInterface;
@@ -54,10 +55,10 @@ class SiteBrandingMainPageLinks implements ContainerInjectionInterface {
   }
 
   /**
-   * Alter site branding elements.
+   * Prepares variables for the 'system_branding_block' block template.
    *
-   * If the current user has access to the current date's main, this does the
-   * following:
+   * If the current user has access to the current date's main page, this does
+   * the following:
    *
    * - Sets the 'front_page_url' to the current date's main page, so that the
    *   logo and site name links reflect the site's current state.
@@ -65,7 +66,7 @@ class SiteBrandingMainPageLinks implements ContainerInjectionInterface {
    * - Changes the 'title' attribute on the links to 'Main Page'.
    *
    * @param array &$variables
-   *   Variables from the 'system_branding_block' block template.
+   *   Variables for the 'system_branding_block' block template.
    *
    * @todo Would it make more sense to set the 'title' attribute to
    *   $currentMainPage->getTitle() so that we don't need to hard code 'Main
@@ -77,7 +78,8 @@ class SiteBrandingMainPageLinks implements ContainerInjectionInterface {
    *   preprocess is only invoked once Drupal has decided that something needs
    *   to be rendered again, i.e. is not be used from cache.
    */
-  public function alter(array &$variables): void {
+  // #[Hook('preprocess_block__system_branding_block')]
+  public function preprocess(array &$variables): void {
 
     /** @var string */
     $currentDate = $this->timeline->getDateFormatted('current', 'storage');

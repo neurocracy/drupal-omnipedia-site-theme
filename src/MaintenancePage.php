@@ -7,7 +7,7 @@ namespace Drupal\omnipedia_site_theme;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\omnipedia_site_theme\SiteBrandingInliner;
+use Drupal\omnipedia_site_theme\Hook\SiteBrandingInliner;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -155,7 +155,7 @@ class MaintenancePage implements ContainerInjectionInterface {
 
     // $variables['#attached']['library'][] = 'omnipedia_site_theme/site_branding';
 
-    // $this->siteBrandingInliner->alter($variables);
+    // $this->siteBrandingInliner->preprocess($variables);
 
   }
 
