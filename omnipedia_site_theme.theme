@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\Core\Render\Element;
-use Drupal\omnipedia_site_theme\EuCookieCompliancePopUpInfoPreprocess;
+use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\MaintenancePage;
 use Drupal\omnipedia_site_theme\MediaSubtitleTracks;
 use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
@@ -377,16 +378,16 @@ function omnipedia_site_theme_preprocess_page_title(array &$variables): void {
 
 /**
  * Prepares variables for the eu_cookie_compliance_popup_info template.
- *
- * @see \Drupal\omnipedia_site_theme\EuCookieCompliancePopUpInfoPreprocess
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_eu_cookie_compliance_popup_info(
-  array &$variables
+  array &$variables,
 ): void {
 
   \Drupal::classResolver(
-    EuCookieCompliancePopUpInfoPreprocess::class
-  )->preprocess($variables);
+    EuCookieCompliancePopUpHooks::class
+  )->preprocessPopUpInfo($variables);
 
 }
 

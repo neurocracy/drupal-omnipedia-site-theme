@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,7 +31,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   Issue regarding the "More info" / privacy policy button being better suited
  *   as a link for accessibility.
  */
-class EuCookieCompliancePopUpInfoPreprocess implements ContainerInjectionInterface {
+class EuCookieCompliancePopUpHooks implements ContainerInjectionInterface {
 
   /**
    * Constructor; saves dependencies.
@@ -57,7 +58,8 @@ class EuCookieCompliancePopUpInfoPreprocess implements ContainerInjectionInterfa
    * @param array &$variables
    *   Variables for the template.
    */
-  public function preprocess(array &$variables): void {
+  #[Hook('preprocess_eu_cookie_compliance_popup_info')]
+  public function preprocessPopUpInfo(array &$variables): void {
 
     // Bail if the more info button isn't present.
     if (empty($variables['more_info_button'])) {
