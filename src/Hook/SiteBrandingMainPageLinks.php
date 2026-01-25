@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace Drupal\omnipedia_site_theme\Hook;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\omnipedia_date\Service\TimelineInterface;
 use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Drupal\omnipedia_main_page\Service\MainPageRouteInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Omnipedia site branding main page link alterations.
  */
 class SiteBrandingMainPageLinks implements ContainerInjectionInterface {
 
+  use AutowireTrait;
+
   use StringTranslationTrait;
 
   /**
    * Constructor; saves dependencies.
-   *
-   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
-   *   The Drupal string translation service.
    *
    * @param \Drupal\omnipedia_main_page\Service\MainPageResolverInterface $mainPageResolver
    *   The Omnipedia main page resolver service.
@@ -34,24 +34,19 @@ class SiteBrandingMainPageLinks implements ContainerInjectionInterface {
    *
    * @param \Drupal\omnipedia_date\Service\TimelineInterface $timeline
    *   The Omnipedia timeline service.
+   *
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $stringTranslation
+   *   The Drupal string translation service.
    */
   public function __construct(
-    protected $stringTranslation,
     protected readonly MainPageResolverInterface  $mainPageResolver,
     protected readonly MainPageRouteInterface     $mainPageRoute,
     protected readonly TimelineInterface          $timeline,
-  ) {}
+    TranslationInterface $stringTranslation,
+  ) {
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('string_translation'),
-      $container->get('omnipedia_main_page.resolver'),
-      $container->get('omnipedia_main_page.route'),
-      $container->get('omnipedia.timeline'),
-    );
+    $this->setStringTranslation($stringTranslation);
+
   }
 
   /**

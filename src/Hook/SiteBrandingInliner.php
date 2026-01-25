@@ -8,17 +8,20 @@ use Drupal\ambientimpact_core\Utility\AttributeHelper;
 use Drupal\ambientimpact_core\Utility\Html;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\DrupalKernelInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Hook\Attribute\Hook;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Omnipedia site branding SVG inliner.
  */
 class SiteBrandingInliner implements ContainerInjectionInterface {
+
+  use AutowireTrait;
 
   /**
    * The HTML class of the logo <svg> element.
@@ -125,21 +128,11 @@ class SiteBrandingInliner implements ContainerInjectionInterface {
    *   The Drupal kernel.
    */
   public function __construct(
+    #[Autowire(service: 'cache.default')]
     protected readonly CacheBackendInterface  $cache,
     protected readonly FileSystemInterface    $fileSystem,
     protected readonly DrupalKernelInterface  $kernel,
   ) {}
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('cache.default'),
-      $container->get('file_system'),
-      $container->get('kernel'),
-    );
-  }
 
   /**
    * Attempt to load the file contents of the referenced SVG file.
