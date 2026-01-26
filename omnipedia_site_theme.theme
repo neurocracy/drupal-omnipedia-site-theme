@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\omnipedia_site_theme\Hook\BlockHooks;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
 use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
@@ -154,46 +155,62 @@ function omnipedia_site_theme_form_views_exposed_form_alter(
 
 /**
  * Prepares variables for the 'help_block' block template.
- *
- * This attaches the 'omnipedia_site_theme/help' library.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_block__help_block(
-  array &$variables
+  array &$variables,
 ): void {
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/help';
+
+  \Drupal::classResolver(BlockHooks::class)->attachLibrariesToHelpBlock(
+    $variables,
+  );
+
 }
 
 /**
  * Prepares variables for the 'omnipedia_current_date' block template.
- *
- * This attaches the 'omnipedia_site_theme/current_date' library.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_block__omnipedia_current_date(
-  array &$variables
+  array &$variables,
 ): void {
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/current_date';
+
+  \Drupal::classResolver(BlockHooks::class)->attachLibrariesToCurrentDateBlock(
+    $variables,
+  );
+
 }
 
 /**
  * Prepares variables for the 'omnipedia_join' block template.
- *
- * This attaches the 'omnipedia_site_theme/join' library.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_block__omnipedia_join(
-  array &$variables
+  array &$variables,
 ): void {
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/join';
+
+  \Drupal::classResolver(BlockHooks::class)->attachLibrariesToJoinBlock(
+    $variables,
+  );
+
 }
 
 /**
  * Prepares variables for the 'omnipedia_page_revision_history' block template.
- *
- * This attaches the 'omnipedia_site_theme/page_revision_history' library.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_block__omnipedia_page_revision_history(
   array &$variables
 ): void {
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/page_revision_history';
+
+  \Drupal::classResolver(
+    BlockHooks::class,
+  )->attachLibrariesToPageRevisionHistoryBlock($variables);
+
 }
 
 /**
