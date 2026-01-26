@@ -9,6 +9,7 @@ use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
 use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\Hook\MediaHooks;
+use Drupal\omnipedia_site_theme\Hook\OmnipediaHeaderHooks;
 use Drupal\omnipedia_site_theme\Hook\OmnipediaRegionPlaceholderHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\PageTitleHooks;
@@ -282,21 +283,16 @@ function omnipedia_site_theme_preprocess_node(array &$variables): void {
 
 /**
  * Prepares variables for the omnipedia-header.html.twig template.
- *
- * This adds a 'button-placeholder' class to the 'menu_link' element.
- *
- * This attaches the 'omnipedia_site_theme/header' library to this template.
- *
- * @see \Drupal\omnipedia_block\Plugin\Block\Header
- *   Used by this block.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_omnipedia_header(
-  array &$variables
+  array &$variables,
 ): void {
 
-  $variables['menu_link']['#attributes']['class'][] = 'button-placeholder';
-
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/header';
+  \Drupal::classResolver(OmnipediaHeaderHooks::class)->preprocessHeader(
+    $variables,
+  );
 
 }
 
