@@ -10,6 +10,7 @@ use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\Hook\MediaHooks;
 use Drupal\omnipedia_site_theme\Hook\OmnipediaRegionPlaceholderHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
+use Drupal\omnipedia_site_theme\Hook\RegionHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\Hook\WikiSearchHooks;
 
@@ -81,16 +82,32 @@ function omnipedia_site_theme_preprocess_maintenance_page(
 }
 
 /**
- * Prepares variables for region templates.
- *
- * This attaches the 'omnipedia_site_theme/sidebars' library to 'sidebar_first'
- * and 'sidebar_second' regions.
+ * Prepares variables for the first sidebar region template.
  */
-function omnipedia_site_theme_preprocess_region(array &$variables): void {
+// @phpstan-ignore-next-line
+#[LegacyHook]
+function omnipedia_site_theme_preprocess_region__sidebar_first(
+  array &$variables,
+): void {
 
-  if (\in_array($variables['region'], ['sidebar_first', 'sidebar_second'])) {
-    $variables['#attached']['library'][] = 'omnipedia_site_theme/sidebars';
-  }
+  \Drupal::classResolver(RegionHooks::class)->attachLibrariesToSidebars(
+    $variables,
+  );
+
+}
+
+/**
+ * Prepares variables for the second sidebar region template.
+ */
+// @phpstan-ignore-next-line
+#[LegacyHook]
+function omnipedia_site_theme_preprocess_region__sidebar_second(
+  array &$variables,
+): void {
+
+  \Drupal::classResolver(RegionHooks::class)->attachLibrariesToSidebars(
+    $variables,
+  );
 
 }
 
