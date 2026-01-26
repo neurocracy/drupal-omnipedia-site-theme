@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Template\Attribute;
@@ -49,12 +50,13 @@ class MediaSubtitleTracks implements ContainerInjectionInterface {
   ) {}
 
   /**
-   * \template_preprocess_media() callback.
+   * Prepares variables for media entities.
    *
    * @param array &$variables
    *   Variables for the template.
    */
-  public function preprocess(array &$variables): void {
+  // #[Hook('theme_preprocess_media')]
+  public function preprocessMedia(array &$variables): void {
 
     if (
       !$variables['media']->hasField(self::VIDEO_FIELD) ||
