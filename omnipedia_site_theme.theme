@@ -8,20 +8,20 @@ use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
 use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\Hook\MediaHooks;
+use Drupal\omnipedia_site_theme\Hook\OmnipediaRegionPlaceholderHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
-use Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder;
 
 /**
  * Implements \hook_theme().
- *
- * @see \Drupal\omnipedia_site_theme\OmnipediaRegionPlaceholder::theme()
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_theme(
-  array $existing, string $type, string $theme, string $path
+  array $existing, string $type, string $theme, string $path,
 ): array {
 
-  return \Drupal::classResolver(OmnipediaRegionPlaceholder::class)->theme(
+  return \Drupal::classResolver(OmnipediaRegionPlaceholderHooks::class)->theme(
     $existing, $type, $theme, $path
   );
 
@@ -95,16 +95,16 @@ function omnipedia_site_theme_preprocess_region(array &$variables): void {
 
 /**
  * Prepares variables for Omnipedia region placeholder templates.
- *
- * Default template: layout/omnipedia-region-placeholder.html.twig.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_omnipedia_region_placeholder(
-  array &$variables
+  array &$variables,
 ): void {
 
-  \Drupal::classResolver(OmnipediaRegionPlaceholder::class)->preprocess(
-    $variables
-  );
+  \Drupal::classResolver(
+    OmnipediaRegionPlaceholderHooks::class,
+  )->preprocessRegionPlaceholder($variables);
 
 }
 

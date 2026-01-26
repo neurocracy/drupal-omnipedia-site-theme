@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\omnipedia_site_theme;
+namespace Drupal\omnipedia_site_theme\Hook;
 
 use Drupal\ambientimpact_core\Utility\Html;
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Template\Attribute;
@@ -14,9 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * Omnipedia region placeholder theme definitions and preprocess class.
+ * Omnipedia region placeholder hooks.
  */
-class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
+class OmnipediaRegionPlaceholderHooks implements ContainerInjectionInterface {
 
   use AutowireTrait;
 
@@ -29,7 +30,7 @@ class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
   public function __construct(protected readonly RendererInterface $renderer) {}
 
   /**
-   * \hook_theme() callback.
+   * Implements hook_theme.
    *
    * @param array $existing
    *   An array of existing theme implementations.
@@ -48,6 +49,7 @@ class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
    *
    * @see \hook_theme()
    */
+  #[Hook('theme')]
   public function theme(
     array $existing, string $type, string $theme, string $path,
   ): array {
@@ -115,12 +117,15 @@ class OmnipediaRegionPlaceholder implements ContainerInjectionInterface {
   }
 
   /**
-   * \template_preprocess_omnipedia_region_placeholder() callback.
+   * Prepares variables for Omnipedia region placeholder templates.
+   *
+   * Default template: layout/omnipedia-region-placeholder.html.twig.
    *
    * @param array &$variables
    *   Variables for the template.
    */
-  public function preprocess(array &$variables): void {
+  #[Hook('preprocess_omnipedia_region_placeholder')]
+  public function preprocessRegionPlaceholder(array &$variables): void {
 
     if (isset($variables['elements']['#attributes'])) {
 
