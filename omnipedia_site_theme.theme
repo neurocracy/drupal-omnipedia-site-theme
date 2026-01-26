@@ -20,7 +20,7 @@ use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\Hook\WikiSearchHooks;
 
 /**
- * Implements \hook_theme().
+ * Implements hook_theme.
  */
 // @phpstan-ignore-next-line
 #[LegacyHook]
@@ -35,7 +35,7 @@ function omnipedia_site_theme_theme(
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK_alter().
+ * Implements hook_theme_suggestions_HOOK_alter.
  */
 // @phpstan-ignore-next-line
 #[LegacyHook]
