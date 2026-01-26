@@ -11,6 +11,7 @@ use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
 use Drupal\omnipedia_site_theme\Hook\MediaHooks;
 use Drupal\omnipedia_site_theme\Hook\OmnipediaRegionPlaceholderHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
+use Drupal\omnipedia_site_theme\Hook\PageTitleHooks;
 use Drupal\omnipedia_site_theme\Hook\RegionHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\Hook\WikiSearchHooks;
@@ -301,11 +302,13 @@ function omnipedia_site_theme_preprocess_omnipedia_header(
 
 /**
  * Prepares variables for page title templates.
- *
- * This attaches the 'omnipedia_site_theme/page_title' library.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_page_title(array &$variables): void {
-  $variables['#attached']['library'][] = 'omnipedia_site_theme/page_title';
+
+  \Drupal::classResolver(PageTitleHooks::class)->attachLibraries($variables);
+
 }
 
 /**
