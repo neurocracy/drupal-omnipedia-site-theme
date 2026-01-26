@@ -29,6 +29,14 @@
     font-family: typography-config.$heading-font-stack;
   }
 
+  .omnipedia-media {
+
+    figcaption {
+      text-align: center;
+    }
+
+  }
+
 }
 
 // @todo This could cause legitimate content to be hidden; remove during
@@ -221,10 +229,6 @@ p:has(.omnipedia-pitch:empty) {
     // default.
     &__media.caption {
       width: 100%;
-    }
-
-    figcaption {
-      text-align: center;
     }
 
   }
