@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Hook\Attribute\LegacyHook;
 use Drupal\omnipedia_site_theme\Hook\BlockHooks;
+use Drupal\omnipedia_site_theme\Hook\ElementHooks;
 use Drupal\omnipedia_site_theme\Hook\EuCookieCompliancePopUpHooks;
 use Drupal\omnipedia_site_theme\Hook\HtmlHooks;
 use Drupal\omnipedia_site_theme\Hook\MaintenancePageHooks;
@@ -131,14 +132,14 @@ function omnipedia_site_theme_preprocess_omnipedia_region_placeholder(
 }
 
 /**
- * Implements hook_element_info_alter().
- *
- * This attaches the 'omnipedia_site_theme/form_radios' library to the 'radios'
- * element.
+ * Implements hook_element_info_alter.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_element_info_alter(array &$info): void {
-  $info['radios']['#attached']['library'][] =
-    'omnipedia_site_theme/form_radios';
+
+  \Drupal::classResolver(ElementHooks::class)->attachLibrariesToRadios($info);
+
 }
 
 /**
