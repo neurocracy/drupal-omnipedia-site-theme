@@ -13,6 +13,7 @@ use Drupal\omnipedia_site_theme\Hook\OmnipediaHeaderHooks;
 use Drupal\omnipedia_site_theme\Hook\OmnipediaRegionPlaceholderHooks;
 use Drupal\omnipedia_site_theme\Hook\PageHooks;
 use Drupal\omnipedia_site_theme\Hook\PageTitleHooks;
+use Drupal\omnipedia_site_theme\Hook\RefreshlessHooks;
 use Drupal\omnipedia_site_theme\Hook\RegionHooks;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingBlockHooks;
 use Drupal\omnipedia_site_theme\Hook\WikiSearchHooks;
@@ -255,29 +256,41 @@ function omnipedia_site_theme_preprocess_media__image(
 }
 
 /**
- * Prepares variables for menu templates.
- *
- * This enables RefreshLess lazy link preloading for the 'main' and 'footer'
- * menus.
+ * Prepares variables for the footer menu template.
  */
-function omnipedia_site_theme_preprocess_menu(array &$variables): void {
+// @phpstan-ignore-next-line
+#[LegacyHook]
+function omnipedia_site_theme_preprocess_menu__footer(array &$variables): void {
 
-  if (\in_array($variables['menu_name'], ['main', 'footer']) === false) {
-    return;
-  }
+  \Drupal::classResolver(RefreshlessHooks::class)->optIntoLazyPreloading(
+    $variables,
+  );
 
-  $variables['attributes']['data-refreshless-lazy-preload'] = true;
+}
+
+/**
+ * Prepares variables for the main menu template.
+ */
+// @phpstan-ignore-next-line
+#[LegacyHook]
+function omnipedia_site_theme_preprocess_menu__main(array &$variables): void {
+
+  \Drupal::classResolver(RefreshlessHooks::class)->optIntoLazyPreloading(
+    $variables,
+  );
 
 }
 
 /**
  * Prepares variables for node templates.
- *
- * Opt nodes into RefreshLess lazy link preloading.
  */
+// @phpstan-ignore-next-line
+#[LegacyHook]
 function omnipedia_site_theme_preprocess_node(array &$variables): void {
 
-  $variables['attributes']['data-refreshless-lazy-preload'] = true;
+  \Drupal::classResolver(RefreshlessHooks::class)->optIntoLazyPreloading(
+    $variables,
+  );
 
 }
 
