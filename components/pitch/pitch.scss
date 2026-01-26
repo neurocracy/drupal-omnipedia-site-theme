@@ -50,6 +50,8 @@ p:has(.omnipedia-pitch:empty) {
   // element and we need a specific gap.
   padding-block-end: var(--content-item-spacing-small);
 
+  container-type: inline-size;
+
   &__title, &__subtitle {
 
     margin-block: 0;
@@ -60,7 +62,8 @@ p:has(.omnipedia-pitch:empty) {
 
   &__title {
 
-    font-size: 350%;
+    // @see https://moderncss.dev/container-query-units-and-fluid-typography/
+    font-size: clamp(2rem, 10cqi, 4rem);
 
     text-transform: uppercase;
 
@@ -68,7 +71,12 @@ p:has(.omnipedia-pitch:empty) {
 
   &__subtitle {
 
-    font-size: 100%;
+    .block & { // Specificity.
+
+      // @see https://moderncss.dev/container-query-units-and-fluid-typography/
+      font-size: clamp(1rem, 6cqi, 1.6rem);
+
+    }
 
     font-style: italic;
 
