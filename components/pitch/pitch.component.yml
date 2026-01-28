@@ -8,3 +8,5 @@ props:
 libraryOverrides:
   dependencies:
     - ambientimpact_base/layout_properties
+    - ambientimpact_core/component.fastdom
+    - ambientimpact_core/framework
