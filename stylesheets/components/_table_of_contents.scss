@@ -2,6 +2,7 @@
 //   Table of contents partial
 // -----------------------------------------------------------------------------
 
+@use 'base:elements/list';
 @use 'base:global/content';
 @use 'base:layout/vertical_spacing' as vertical-spacing;
 @use 'card';
@@ -28,27 +29,42 @@
 
 .table-of-contents {
 
-  @include card.base($padding: 1em);
+  $self: &;
 
   @at-root {
-    @include vertical-spacing.against-previous(
-      &,
-      $spacing-small: content.$item-vertical-spacing-small,
-      $spacing-large: content.$item-vertical-spacing-large
-    );
+
+    .node__content {
+
+      @include vertical-spacing.against-previous(
+        $self,
+        $spacing-small: content.$item-vertical-spacing-small,
+        $spacing-large: content.$item-vertical-spacing-large,
+        $property:      margin-block-start,
+      );
+
+    }
+
   }
 
-  @include breakpoint.on('>=table-of-contents-wide') {
-    max-width: max-content;
-    min-width: 35%;
-  }
+  .node__content & {
 
-  @include colour.set($background: colours.$secondary-content-background-light);
+    @include card.base($padding: 1em);
 
-  @include colour.on-dark-scheme {
+    @include breakpoint.on('>=table-of-contents-wide') {
+      max-width: max-content;
+      min-width: 35%;
+    }
+
     @include colour.set(
-      $background: colours.$secondary-content-background-dark
+      $background: colours.$secondary-content-background-light,
     );
+
+    @include colour.on-dark-scheme {
+      @include colour.set(
+        $background: colours.$secondary-content-background-dark
+      );
+    }
+
   }
 
   &__heading {
@@ -57,8 +73,44 @@
     border-bottom-width: 0 !important;
   }
 
+  // Remove the heading when displayed in the block so that the block heading
+  // can be used, edited, or hidden as desired.
+  .block-omnipedia-table-of-contents &__heading {
+    display: none;
+  }
+
   ol {
     counter-reset: table-of-contents-item;
+  }
+
+  // This recreates the relevant stuff from base:elements/list as that scopes
+  // its styles to .region-content at the moment.
+  .block-omnipedia-table-of-contents & ol {
+
+    margin-block: 0;
+
+    padding-inline-start: list.$marker-indent;
+
+    li {
+
+      margin: 0;
+
+      + li {
+
+        margin-block-start: list.$item-spacing;
+
+      }
+
+      // Nested lists use the list item spacing to look consistent.
+      @include vertical-spacing.against-previous(
+        'ol',
+        $spacing-small: list.$item-spacing,
+        $spacing-large: list.$item-spacing,
+        $property:      margin-block-start,
+      );
+
+    }
+
   }
 
   li {
