@@ -48,6 +48,14 @@
 
   .node__content & {
 
+    // If the block is found in the sidebars, hide the in-content table of
+    // contents.
+    .layout-container:has(
+      .layout-sidebars .block-omnipedia-table-of-contents
+    ) & {
+      display: none;
+    }
+
     @include card.base($padding: 1em);
 
     @include breakpoint.on('>=table-of-contents-wide') {
