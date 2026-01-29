@@ -28,6 +28,21 @@
 
   position: relative;
 
+  // Override the Stable theme setting position: absolute; as that causes these
+  // to end up at the top of the positioning context instead of by the heading,
+  // breaking in-page scrolling.
+  //
+  // @see themes/contrib/stable/css/system/components/hidden.module.css
+  &.visually-hidden.focusable {
+
+    @supports (pointer-events: none) {
+
+      position: relative !important;
+
+    }
+
+  }
+
   // Vertical alignment adjustment.
   top: 0.2em;
 
