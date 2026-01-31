@@ -39,6 +39,13 @@
 
 }
 
+// Hide third level and deeper table of contents lists in the block.
+.block-omnipedia-table-of-contents .table-of-contents__list .table-of-contents__list .table-of-contents__list {
+
+  display: none;
+
+}
+
 // @todo This could cause legitimate content to be hidden; remove during
 //   rendering intead.
 p:has(.omnipedia-pitch:empty) {
