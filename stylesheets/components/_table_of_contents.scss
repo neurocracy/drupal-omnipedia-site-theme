@@ -97,7 +97,9 @@
 
     margin-block: 0;
 
-    padding-inline-start: list.$marker-indent;
+    // Since we're disabling markers to save space, we already want to reduce
+    // the indent to save even more space.
+    padding-inline-start: list.$marker-indent * 0.5;
 
     li {
 
@@ -118,6 +120,32 @@
       );
 
     }
+
+  }
+
+  .block-omnipedia-table-of-contents &__list li {
+
+    // Completely disable markers on the block table of contents to save space.
+    &::marker {
+
+      content: none;
+
+    }
+
+    // Also remove the padding between the marker and content.
+    @include selector.root-conditions(('[dir=ltr]'), 'html') {
+      padding-left: 0;
+    }
+    @include selector.root-conditions(('[dir=rtl]'), 'html') {
+      padding-right: 0;
+    }
+
+  }
+
+  // Remove the horizontal indent on the top level list entirely.
+  .block-omnipedia-table-of-contents & > &__list {
+
+    padding-inline-start: 0;
 
   }
 
