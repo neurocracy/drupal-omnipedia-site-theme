@@ -39,8 +39,8 @@
 
 }
 
-// Hide third level and deeper table of contents lists in the block.
-.block-omnipedia-table-of-contents .table-of-contents__list .table-of-contents__list .table-of-contents__list {
+// Hide second level and deeper table of contents lists in the block.
+.block-omnipedia-table-of-contents .table-of-contents__list .table-of-contents__list {
 
   display: none;
 
