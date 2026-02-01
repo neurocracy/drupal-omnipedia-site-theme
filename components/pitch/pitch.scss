@@ -39,10 +39,16 @@
 
 }
 
-// Hide second level and deeper table of contents lists in the block.
-.block-omnipedia-table-of-contents .table-of-contents__list .table-of-contents__list {
+.block-omnipedia-table-of-contents {
 
-  display: none;
+  font-family: typography-config.$heading-font-stack;
+
+  // Hide second level and deeper table of contents lists in the block.
+  .table-of-contents__list .table-of-contents__list {
+
+    display: none;
+
+  }
 
 }
 
