@@ -99,8 +99,21 @@
 
 // Common stuff regardless of whether subgrid is supported.
 .layout-container {
-  @include breakpoint.on('<layout-with-one-sidebar') {
-    padding-top: layout-config.$gutter;
+
+  @include layout-sidebars.on-sidebar(one) {
+
+    @include breakpoint.on('<layout-with-one-sidebar') {
+      padding-top: layout-config.$gutter;
+    }
+
+  }
+
+  @include layout-sidebars.on-sidebar(both) {
+
+    @include breakpoint.on('<layout-with-both-sidebars') {
+      padding-top: layout-config.$gutter;
+    }
+
   }
 
   @include layout-sidebars.on-sidebar-beside-content(any) {
@@ -168,7 +181,12 @@
   }
 
   .region-primary-menu {
-    @include breakpoint.on('<layout-with-one-sidebar') {
+
+    ///
+    /// Styles applied to primary menu region regardless of subgrid support.
+    ///
+    @mixin primary-menu-common {
+
       &,
       .block,
       .omnipedia-header {
@@ -176,6 +194,23 @@
         grid-column-end:    menu-primary;
         grid-row:           branding;
       }
+
+    }
+
+    @include layout-sidebars.on-sidebar(one) {
+
+      @include breakpoint.on('<layout-with-one-sidebar') {
+        @include primary-menu-common;
+      }
+
+    }
+
+    @include layout-sidebars.on-sidebar(both) {
+
+      @include breakpoint.on('<layout-with-both-sidebars') {
+        @include primary-menu-common;
+      }
+
     }
 
     // Required to override ambientimpact_base/stylesheets/layout/_output.scss
@@ -216,6 +251,28 @@
 
 }
 
+///
+/// Styles applied to primary menu region when subgrid is supported.
+///
+@mixin primary-menu-subgrid {
+
+  &,
+  .block,
+  .omnipedia-header,
+  .omnipedia-header__search-form {
+    display: grid;
+
+    grid-template-rows:     subgrid;
+  }
+
+  &,
+  .block,
+  .omnipedia-header__search-form {
+    grid-template-columns:  subgrid;
+  }
+
+}
+
 // If subgrid is supported, use it to lay out the site layout, allowing the grid
 // to be inherited into the main content area.
 //
@@ -249,21 +306,23 @@
     }
 
     .region-primary-menu {
-      @include breakpoint.on('<layout-with-one-sidebar') {
-        &,
-        .block,
-        .omnipedia-header,
-        .omnipedia-header__search-form {
-          display: grid;
 
-          grid-template-rows:     subgrid;
+      @include layout-sidebars.on-sidebar(one) {
+
+        @include breakpoint.on('<layout-with-one-sidebar') {
+          @include primary-menu-subgrid;
         }
-        &,
-        .block,
-        .omnipedia-header__search-form {
-          grid-template-columns:  subgrid;
-        }
+
       }
+
+      @include layout-sidebars.on-sidebar(both) {
+
+        @include breakpoint.on('<layout-with-both-sidebars') {
+          @include primary-menu-subgrid;
+        }
+
+      }
+
     }
 
     .layout-container {

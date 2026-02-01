@@ -10,6 +10,9 @@
 @use '../variables/colours';
 @use '../variables/general' as general-variables;
 
+@use '../layout/config' as layout-config; // Configure layout.
+@use 'base:layout/sidebars' as layout-sidebars;
+
 // @see ../layout/_sidebars.scss
 //   Describes the offcanvas sidebar elements and their functions.
 
@@ -44,132 +47,154 @@ $shadow-on-dark:
   }
 }
 
-.layout-sidebars {
-  @include breakpoint.on('<layout-with-one-sidebar') {
+///
+/// Styles applied to sidebars to enable off-canvas functionality.
+///
+@mixin sidebars-off-canvas {
 
-    will-change: transform, opacity;
+  will-change: transform, opacity;
 
+  transform: translateX(var(--offcanvas-sidebars-hidden-translate-x));
+
+  &:target,
+  &:focus-within,
+  &--open {
+    transform: translateX(0);
+  }
+
+  // This prevents the menu opening right before behaviours detach when
+  // navigating backwards via Turbo back to a different URL that also had the
+  // menu open with the hash in that URL. Without this, the menu would open,
+  // close, then open again quickly.
+  @include selector.root-conditions((
+    '[data-turbo-visit-direction="back"]',
+  ), 'html') {
     transform: translateX(var(--offcanvas-sidebars-hidden-translate-x));
+  }
+
+  transition-property: transform, opacity, visibility;
+
+  // These are used when transitioning out of view, i.e. is closing. The panel
+  // accelerates out to give it a sense of physicality and weight, as if this
+  // is a real object subject to physics. The duration is shortened to
+  // compensate for the different easing, making it feel similar in duration
+  // to the transition in.
+  transition-duration:        0.2s;
+  transition-timing-function: motion.$easing-accelerate;
+
+  // These are used when transitioning into view, i.e. is opening. The panel
+  // comes in at full speed and decelerates to a stop.
+  &:target,
+  &:focus-within,
+  &--open {
+    transition-duration:        0.3s;
+    transition-timing-function: motion.$easing-decelerate;
+  }
+
+  // Don't transition transforms if the user indicates they prefer reduced
+  // motion but use opacity instead.
+  //
+  // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+  @media (prefers-reduced-motion: reduce) {
+    --offcanvas-sidebars-hidden-translate-x: 0 !important;
+
+    opacity: 0;
+
+    // Opacity transitions look more natural with linear easing.
+    transition-timing-function: linear;
+
+    pointer-events: none;
 
     &:target,
-    &:focus-within,
-    &--open {
-      transform: translateX(0);
-    }
-
-    // This prevents the menu opening right before behaviours detach when
-    // navigating backwards via Turbo back to a different URL that also had the
-    // menu open with the hash in that URL. Without this, the menu would open,
-    // close, then open again quickly.
-    @include selector.root-conditions((
-      '[data-turbo-visit-direction="back"]',
-    ), 'html') {
-      transform: translateX(var(--offcanvas-sidebars-hidden-translate-x));
-    }
-
-    transition-property: transform, opacity, visibility;
-
-    // These are used when transitioning out of view, i.e. is closing. The panel
-    // accelerates out to give it a sense of physicality and weight, as if this
-    // is a real object subject to physics. The duration is shortened to
-    // compensate for the different easing, making it feel similar in duration
-    // to the transition in.
-    transition-duration:        0.2s;
-    transition-timing-function: motion.$easing-accelerate;
-
-    // These are used when transitioning into view, i.e. is opening. The panel
-    // comes in at full speed and decelerates to a stop.
-    &:target,
-    &:focus-within,
-    &--open {
-      transition-duration:        0.3s;
-      transition-timing-function: motion.$easing-decelerate;
-    }
-
-    // Don't transition transforms if the user indicates they prefer reduced
-    // motion but use opacity instead.
-    //
-    // @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
-    @media (prefers-reduced-motion: reduce) {
-      --offcanvas-sidebars-hidden-translate-x: 0 !important;
-
-      opacity: 0;
-
-      // Opacity transitions look more natural with linear easing.
-      transition-timing-function: linear;
-
-      pointer-events: none;
-
-      &:target,
-      &:focus-within {
-        opacity: 1;
-
-        pointer-events: auto;
-      }
-    }
-
-    &::after {
-      box-shadow: $shadow-on-light;
-
-      @include colour.on-dark-scheme {
-        box-shadow: $shadow-on-dark;
-      }
-    }
-
-    &__wrapper {
-      @include colour.set($background: colour.$background-light);
-
-      @include colour.on-dark-scheme {
-        @include colour.set($background: colour.$background-dark);
-      }
-
-      @include selector.root-conditions(('[dir=ltr]'), 'html') {
-        border-left:
-          general-variables.$divider-thickness solid colours.$divider-on-light;
-
-        @include colour.on-dark-scheme {
-          border-left-color: colours.$divider-on-dark;
-        }
-      }
-      @include selector.root-conditions(('[dir=rtl]'), 'html') {
-        border-right:
-          general-variables.$divider-thickness solid colours.$divider-on-light;
-
-        @include colour.on-dark-scheme {
-          border-right-color: colours.$divider-on-dark;
-        }
-      }
-    }
-
-    &::after,
-    &__closed-target,
-    &__closed-anchor {
-      transition-property:        opacity;
-      transition-duration:        200ms;
-      // Opacity transitions look more natural with linear easing.
-      transition-timing-function: linear;
-
-      opacity: 0;
-    }
-
-    &:target::after,
-    &--open::after,
-    &:target ~ &__closed-target,
-    &:target ~ &__closed-anchor,
-    // Attempts to prevent the non-JavaScript overlay not appearing when leaving
-    // a page on a Turbo visit to another as it currently doesn't update :target
-    // because browsers don't provide an API to do this.
-    //
-    // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/19
-    &--open ~ &__closed-anchor:not(&__closed-anchor--disabled),
-    &:focus-within::after,
-    &:focus-within ~ &__closed-target,
-    &:focus-within ~ &__closed-anchor {
+    &:focus-within {
       opacity: 1;
-    }
 
-    &__close {
-      @include material-ripple.material-ripple;
+      pointer-events: auto;
     }
   }
+
+  &::after {
+    box-shadow: $shadow-on-light;
+
+    @include colour.on-dark-scheme {
+      box-shadow: $shadow-on-dark;
+    }
+  }
+
+  &__wrapper {
+    @include colour.set($background: colour.$background-light);
+
+    @include colour.on-dark-scheme {
+      @include colour.set($background: colour.$background-dark);
+    }
+
+    @include selector.root-conditions(('[dir=ltr]'), 'html') {
+      border-left:
+        general-variables.$divider-thickness solid colours.$divider-on-light;
+
+      @include colour.on-dark-scheme {
+        border-left-color: colours.$divider-on-dark;
+      }
+    }
+    @include selector.root-conditions(('[dir=rtl]'), 'html') {
+      border-right:
+        general-variables.$divider-thickness solid colours.$divider-on-light;
+
+      @include colour.on-dark-scheme {
+        border-right-color: colours.$divider-on-dark;
+      }
+    }
+  }
+
+  &::after,
+  &__closed-target,
+  &__closed-anchor {
+    transition-property:        opacity;
+    transition-duration:        200ms;
+    // Opacity transitions look more natural with linear easing.
+    transition-timing-function: linear;
+
+    opacity: 0;
+  }
+
+  &:target::after,
+  &--open::after,
+  &:target ~ &__closed-target,
+  &:target ~ &__closed-anchor,
+  // Attempts to prevent the non-JavaScript overlay not appearing when leaving
+  // a page on a Turbo visit to another as it currently doesn't update :target
+  // because browsers don't provide an API to do this.
+  //
+  // @see https://gitlab.com/neurocracy/omnipedia/omnipedia-theme/-/issues/19
+  &--open ~ &__closed-anchor:not(&__closed-anchor--disabled),
+  &:focus-within::after,
+  &:focus-within ~ &__closed-target,
+  &:focus-within ~ &__closed-anchor {
+    opacity: 1;
+  }
+
+  &__close {
+    @include material-ripple.material-ripple;
+  }
+
+}
+
+.layout-sidebars {
+
+  @include layout-sidebars.on-sidebar(one) {
+
+    @include breakpoint.on('<layout-with-one-sidebar') {
+      @include sidebars-off-canvas;
+    }
+
+  }
+
+  @include layout-sidebars.on-sidebar(both) {
+
+    @include breakpoint.on('<layout-with-both-sidebars') {
+      @include sidebars-off-canvas;
+    }
+
+  }
+
 }

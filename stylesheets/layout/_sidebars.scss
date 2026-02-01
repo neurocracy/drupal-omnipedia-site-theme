@@ -55,128 +55,150 @@
 // @see ./_sidebars.offcanvas.scss
 //   Contains non-layout styles for the offcanvas sidebars panel.
 
-.layout-sidebars {
-  // Indicate to the sidebars JavaScript that sidebars are not off-canvas.
-  --omnipedia-sidebars-off-canvas: false;
+///
+/// Styles applied to sidebars to enable off-canvas functionality.
+///
+@mixin sidebars-off-canvas {
 
-  @include breakpoint.on('<layout-with-one-sidebar') {
-    // Indicate to the sidebars JavaScript that sidebars are off-canvas.
-    --omnipedia-sidebars-off-canvas: true;
+  // Indicate to the sidebars JavaScript that sidebars are off-canvas.
+  --omnipedia-sidebars-off-canvas: true;
+
+  position: fixed;
+
+  top:    var(--drupal-displace-offset-top, 0);
+  bottom: var(--drupal-displace-offset-bottom, 0);
+
+  @include selector.root-conditions(('[dir=ltr]'), 'html') {
+    right: var(--drupal-displace-offset-right, 0);
+  }
+  @include selector.root-conditions(('[dir=rtl]'), 'html') {
+    left: var(--drupal-displace-offset-left, 0);
+  }
+
+  z-index: var(--sidebars-compact-z-index);
+
+  min-width: 13em;
+
+  &__closed-target,
+  &__closed-anchor {
+    z-index: var(--sidebars-compact-closed-elements-z-index);
+  }
+
+  &__wrapper {
+    height: 100%;
+
+    box-sizing: border-box;
+
+    // Scroll if the sidebar content doesn't fit in the vertical space.
+    overflow-y: auto;
+
+    padding: layout-config.$gutter;
+
+    // This should roughly account for the close button.
+    //
+    // @todo Find a way to sync this with the actual expected height of the
+    //   button.
+    padding-bottom: calc(#{layout-config.$gutter} + 3.5em);
+  }
+
+  // Shadow element. See documentation at the top of this partial.
+  &::after {
+    content: '';
+
+    position: absolute;
+
+    top:    0;
+    bottom: 0;
+    left:   0;
+    right:  0;
+
+    z-index: -1;
+  }
+
+  &__close {
+    // Fallback display for browsers that don't support max-width:
+    // max-content, to at least make it visible as it has the 'hidden'
+    // attribute to not be displayed if CSS fails to load or be applied.
+    display: unset;
+
+    @supports (max-width: max-content) {
+      display: block;
+    }
+
+    max-width: max-content;
+
+    position: absolute;
+
+    bottom:   layout-config.$gutter;
+
+    @include selector.root-conditions(('[dir=ltr]'), 'html') {
+      right:  layout-config.$gutter;
+    }
+    @include selector.root-conditions(('[dir=rtl]'), 'html') {
+      left:   layout-config.$gutter;
+    }
+
+    // Ensure that this is above other elements.
+    z-index: 1;
+
+    // Box shadow with extended spread to make the close button hide content
+    // below it a little more pleasantly than with hard edges.
+    box-shadow: 0 0 6px 6px var(--background-colour);
+
+    // Give this a solid background colour if it's a link as it won't have one
+    // by default. This only applies to the link as when this is replaced with
+    // a button we'll likely have a background colour.
+    &:any-link {
+      background-color: var(--background-colour);
+    }
+  }
+
+  // See documentation at the top of this partial for these.
+  &__closed-target, // Applies even when the JavaScript overlay is attached.
+  &__closed-anchor:not(&__closed-anchor--disabled) {
+    display: block;
 
     position: fixed;
 
-    top:    var(--drupal-displace-offset-top, 0);
-    bottom: var(--drupal-displace-offset-bottom, 0);
+    top:    0;
+    bottom: 0;
+    left:   0;
+    right:  0;
 
-    @include selector.root-conditions(('[dir=ltr]'), 'html') {
-      right: var(--drupal-displace-offset-right, 0);
-    }
-    @include selector.root-conditions(('[dir=rtl]'), 'html') {
-      left: var(--drupal-displace-offset-left, 0);
-    }
+    // Ignore all clicks/taps and allow them to register as the elements were
+    // not positioned above everything when the panel is not open.
+    pointer-events: none;
+  }
 
-    z-index: var(--sidebars-compact-z-index);
+  // When the panel is open, these register clicks/taps to close the panel.
+  &:target ~ &__closed-target:not(&__closed-target--has-overlay),
+  &:target ~ &__closed-anchor,
+  &:focus-within ~ &__closed-target:not(&__closed-target--has-overlay),
+  &:focus-within ~ &__closed-anchor {
+    pointer-events: auto;
+  }
 
-    min-width: 13em;
+}
 
-    &__closed-target,
-    &__closed-anchor {
-      z-index: var(--sidebars-compact-closed-elements-z-index);
-    }
+.layout-sidebars {
 
-    &__wrapper {
-      height: 100%;
+  // Indicate to the sidebars JavaScript that sidebars are not off-canvas.
+  --omnipedia-sidebars-off-canvas: false;
 
-      box-sizing: border-box;
+  @include layout-sidebars.on-sidebar(one) {
 
-      // Scroll if the sidebar content doesn't fit in the vertical space.
-      overflow-y: auto;
-
-      padding: layout-config.$gutter;
-
-      // This should roughly account for the close button.
-      //
-      // @todo Find a way to sync this with the actual expected height of the
-      //   button.
-      padding-bottom: calc(#{layout-config.$gutter} + 3.5em);
+    @include breakpoint.on('<layout-with-one-sidebar') {
+      @include sidebars-off-canvas;
     }
 
-    // Shadow element. See documentation at the top of this partial.
-    &::after {
-      content: '';
+  }
 
-      position: absolute;
+  @include layout-sidebars.on-sidebar(both) {
 
-      top:    0;
-      bottom: 0;
-      left:   0;
-      right:  0;
-
-      z-index: -1;
+    @include breakpoint.on('<layout-with-both-sidebars') {
+      @include sidebars-off-canvas;
     }
 
-    &__close {
-      // Fallback display for browsers that don't support max-width:
-      // max-content, to at least make it visible as it has the 'hidden'
-      // attribute to not be displayed if CSS fails to load or be applied.
-      display: unset;
-
-      @supports (max-width: max-content) {
-        display: block;
-      }
-
-      max-width: max-content;
-
-      position: absolute;
-
-      bottom:   layout-config.$gutter;
-
-      @include selector.root-conditions(('[dir=ltr]'), 'html') {
-        right:  layout-config.$gutter;
-      }
-      @include selector.root-conditions(('[dir=rtl]'), 'html') {
-        left:   layout-config.$gutter;
-      }
-
-      // Ensure that this is above other elements.
-      z-index: 1;
-
-      // Box shadow with extended spread to make the close button hide content
-      // below it a little more pleasantly than with hard edges.
-      box-shadow: 0 0 6px 6px var(--background-colour);
-
-      // Give this a solid background colour if it's a link as it won't have one
-      // by default. This only applies to the link as when this is replaced with
-      // a button we'll likely have a background colour.
-      &:any-link {
-        background-color: var(--background-colour);
-      }
-    }
-
-    // See documentation at the top of this partial for these.
-    &__closed-target, // Applies even when the JavaScript overlay is attached.
-    &__closed-anchor:not(&__closed-anchor--disabled) {
-      display: block;
-
-      position: fixed;
-
-      top:    0;
-      bottom: 0;
-      left:   0;
-      right:  0;
-
-      // Ignore all clicks/taps and allow them to register as the elements were
-      // not positioned above everything when the panel is not open.
-      pointer-events: none;
-    }
-
-    // When the panel is open, these register clicks/taps to close the panel.
-    &:target ~ &__closed-target:not(&__closed-target--has-overlay),
-    &:target ~ &__closed-anchor,
-    &:focus-within ~ &__closed-target:not(&__closed-target--has-overlay),
-    &:focus-within ~ &__closed-anchor {
-      pointer-events: auto;
-    }
   }
 
   @include layout-sidebars.on-sidebar-beside-content(any) {
