@@ -310,6 +310,21 @@ header[role='banner'] {
   }
 }
 
+// If the header search form is not present on the page, remove both the search
+// anchor and search target, as they do nothing.
+//
+// @todo Can we move this into preprocess_page to output a variable to
+//   page.html.twig, which then only outputs the elements if search is
+//   available?
+.layout-container:not(:has(.omnipedia-header__search-form)) {
+
+  .search-anchor,
+  .search-target {
+    display: none;
+  }
+
+}
+
 .search-target:target,
 .search-target--form-has-focus {
 
