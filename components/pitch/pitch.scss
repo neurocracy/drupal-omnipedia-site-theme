@@ -247,3 +247,14 @@ p:has(.omnipedia-pitch:empty) {
   }
 
 }
+
+// Centre-align and shrink-wrap the footer contents if there's a block present.
+.region-footer:has(.block) {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+}
