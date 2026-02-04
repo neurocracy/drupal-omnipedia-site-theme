@@ -21,7 +21,7 @@
     "drupal/ambientimpact_core": "^2.0@dev || ^3.0@dev",
     "drupal/ambientimpact_icon": "^1.0@dev",
     "drupal/ambientimpact_ux": "^2.0@dev",
-    "drupal/omnipedia_block": "^5.0@dev || ^6.0@dev",
+    "drupal/omnipedia_block": "^5.0@dev || ^6.0@dev || ^7.0@dev",
     "drupal/omnipedia_content": "^7.0@dev",
     "drupal/omnipedia_main_page": "^1.0@dev",
     "drupal/omnipedia_media": "^6.0@dev || ^7.0@dev",
