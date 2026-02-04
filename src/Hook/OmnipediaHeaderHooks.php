@@ -17,9 +17,6 @@ class OmnipediaHeaderHooks {
    * This adds a 'button-placeholder' class to the 'menu_link' element.
    *
    * This attaches the 'omnipedia_site_theme/header' library to this template.
-   *
-   * @see \Drupal\omnipedia_block\Plugin\Block\Header
-   *   Used by this block.
    */
   #[Hook('preprocess_omnipedia_header')]
   public function preprocessHeader(array &$variables): void {
