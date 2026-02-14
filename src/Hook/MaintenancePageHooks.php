@@ -12,7 +12,6 @@ use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\omnipedia_site_theme\Hook\SiteBrandingInliner;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Maintenance page hooks.
